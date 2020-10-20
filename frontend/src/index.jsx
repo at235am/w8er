@@ -6,6 +6,7 @@ import "./index.css";
 import ThemedApp from "./Theme";
 // import * as serviceWorker from "./serviceWorker";
 
+// ReactDOM.render(<p>lsdjflsdkjf</p>, document.getElementById("root"));
 ReactDOM.render(
   <React.StrictMode>
     <RecoilRoot>

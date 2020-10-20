@@ -41,8 +41,7 @@ const ContainerContainer = styled.div`
 const FormContainer = styled.form`
   width: 50%;
   height: 80%;
-  //background-color: blue;
-
+  background-color: ${({ theme }) => theme.colors.surface};
   display: flex;
   justify-content: center;
   flex-direction: column;

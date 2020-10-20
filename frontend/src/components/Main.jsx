@@ -8,14 +8,15 @@ import styled from "@emotion/styled";
 import { useRecoilState } from "recoil";
 import { userState } from "../recoil/UserState";
 
-
 const MainContent = styled.main`
   background-color: ${({ theme }) => theme.colors.background};
- // background-color: red;
+  /* background-color: red; */
   /* z-index: 1; */
 
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
+  max-height: calc(100% - 4rem);
+  /* flex: 1; */
 
   /* overflow: hidden; */
 
@@ -35,6 +36,7 @@ const MainContent = styled.main`
   }
 
   /* display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center; */
 `;
@@ -42,7 +44,7 @@ const MainContent = styled.main`
 const Main = ({ children, ...props }) => {
   const [user, setUser] = useRecoilState(userState);
 
-  return <MainContent {...props}  >{children}</MainContent>;
+  return <MainContent {...props}>{children}</MainContent>;
 };
 
 export default Main;

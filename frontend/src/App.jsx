@@ -21,6 +21,7 @@ import FormInput from "./components/inputs/FormInput";
 import Sidebar from "./components/Sidebar";
 import Main from "./components/Main";
 import Navigation from "./components/Navigation";
+import Navbar from "./components/Navbar";
 
 // page components:
 import SeatingLayout from "./pages/SeatingLayout";
@@ -63,20 +64,6 @@ const AppContainer = styled.section`
   }
 `;
 
-const FlexWrapper = styled.div`
-  background-color: ${({ theme }) => theme.colors.surface};
-
-  position: relative;
-  overflow: hidden;
-
-  display: flex;
-  flex-direction: row;
-
-  @media (max-width: 500px) {
-    flex-direction: column;
-  }
-`;
-
 const App = ({ ...props }) => {
   const theme = useTheme();
   const user = useRecoilValue(userState);
@@ -93,40 +80,50 @@ const App = ({ ...props }) => {
         </Helmet>
 
         <BrowserRouter>
-          {!user && (
-            <Main>
-              <Switch>
-                <Route exact path="/" component={LandingPage} />
-                <Route exact path="/reservation" component={ReservationPage} />
-                <Route
-                  exact
-                  path="/reservation-choose-table"
-                  component={FloorMap}
-                />
-                <Route exact path="/login_signup" component={Login_Signup} />
-                <Route exact path="/waitlist" component={Waitlist} />
-                <Route exact path="/confirmation" component={Confirmation} />
-                <Route
-                  exact
-                  path="/reservation-confirmation"
-                  component={ReservationConfirmationPage}
-                />
-              </Switch>
-            </Main>
-          )}
-          {user && (
+          <Navbar />
+          <Main>
             <Switch>
-              <Route exact path="/login_signup" component={Login_Signup} />
-              <Route exact path="/waitlist" component={Waitlist} />
-              <Route exact path="/confirmation" component={Confirmation} />
-              <Route exact path="/settings" component={Settings} />
-              <Route
-                exact
-                path="/guestlist_floormap"
-                component={Guestlist_Floormap}
-              />
+              {!user && (
+                <React.Fragment>
+                  <Route exact path="/" component={LandingPage} />
+                  <Route
+                    exact
+                    path="/reservation"
+                    component={ReservationPage}
+                  />
+                  <Route
+                    exact
+                    path="/reservation-choose-table"
+                    component={FloorMap}
+                  />
+                  <Route exact path="/login_signup" component={Login_Signup} />
+                  <Route exact path="/waitlist" component={Waitlist} />
+                  <Route exact path="/confirmation" component={Confirmation} />
+                  <Route
+                    exact
+                    path="/reservation-confirmation"
+                    component={ReservationConfirmationPage}
+                  />
+                </React.Fragment>
+              )}
+              {user && (
+                <React.Fragment>
+                  <Route exact path="/" component={Guestlist_Floormap} />
+
+                  <Route exact path="/settings" component={Settings} />
+                  <Route
+                    exact
+                    path="/guestlist_floormap"
+                    component={Guestlist_Floormap}
+                  />
+
+                  <Route path="/">
+                    <Redirect to="/"></Redirect>
+                  </Route>
+                </React.Fragment>
+              )}
             </Switch>
-          )}
+          </Main>
         </BrowserRouter>
       </AppContainer>
     </DndProvider>

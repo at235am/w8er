@@ -14,9 +14,10 @@ import { useHistory } from "react-router-dom";
 
 const GuestFMContainer = styled.div`
   width: 100%;
+  /* flex: 1; */
   height: 100%;
 
-  padding: 2rem;
+  /* padding: 2rem; */
 
   display: flex;
   flex-direction: column;
@@ -46,8 +47,8 @@ const GuestList_Floormap = () => {
   const history = useHistory();
 
   return (
-    <GuestFMContainer>
-      <Navigation></Navigation>
+    <GuestFMContainer className="sdlfkjsdlkfjlkjsdlf">
+      {/* <Navigation></Navigation> */}
       <MainContent>
         <GuestListContainer>
           <Guest></Guest>

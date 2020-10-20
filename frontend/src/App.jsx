@@ -87,7 +87,6 @@ const App = ({ ...props }) => {
           <Helmet>
             <meta name="theme-color" content={theme.colors.primary} />
           </Helmet>
-          <p>HELOOOOOOOOOOOOOOOOOOOO</p>
 
           <BrowserRouter basename="/w8er">
             {user && (

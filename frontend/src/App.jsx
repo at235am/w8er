@@ -37,6 +37,7 @@ import { SiGoogle as GoogleLogoIcon } from "react-icons/si";
 import WaitlistPage from "./pages/WaitlistPage";
 import FloorMap from "./components/layout-tools/FloorMap";
 import ReservationPage from "./pages/ReservationPage";
+import ReservationConfirmationPage from "./pages/ReservationConfirmationPage";
 
 // state management:
 import { useRecoilValue } from "recoil";
@@ -105,11 +106,19 @@ const App = ({ ...props }) => {
                 <Route exact path="/login_signup" component={Login_Signup} />
                 <Route exact path="/waitlist" component={Waitlist} />
                 <Route exact path="/confirmation" component={Confirmation} />
+                <Route
+                  exact
+                  path="/reservation-confirmation"
+                  component={ReservationConfirmationPage}
+                />
               </Switch>
             </Main>
           )}
           {user && (
             <Switch>
+              <Route exact path="/login_signup" component={Login_Signup} />
+              <Route exact path="/waitlist" component={Waitlist} />
+              <Route exact path="/confirmation" component={Confirmation} />
               <Route exact path="/settings" component={Settings} />
               <Route
                 exact

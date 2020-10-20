@@ -15,6 +15,8 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
 import { useHistory } from "react-router-dom";
 
+import SelectSlider from "../components/inputs/SelectSlider";
+
 import Select from "react-select";
 
 const partySizeArr = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
@@ -204,7 +206,7 @@ const ReservationPage = () => {
 
           setFormValues(INITIAL);
 
-          history.push("/reservation-choose-table");
+          history.push("/reservation-confirmation");
         }}
       >
         <Title>Reservation</Title>
@@ -262,9 +264,20 @@ const ReservationPage = () => {
           additionalInfo="(MM-DD-YYYY)"
           maxLength={10}
         />
-        <Button text="Pick table"></Button>
+        <SelectSlider 
+          options= {["Table 1-A","Table 1-B","Table 1-C",
+          "Table 2-A","Table 2-B","Table 2-C",
+          "Table 3-A","Table 3-B","Table 3-C",
+          "Table 4-A","Table 4-B","Table 4-C"]}
+          label = "Slider"
+          value={formValues.seating}
+          handleChange={(e) => {
+            setFormValues({ ...formValues, seating: e });
+          }}
+          ></SelectSlider>
 
-        <Button text="Confirm Reservation"></Button>
+        <Button type="submit" text="Confirm Reservation"></Button>
+      
       </FormContainer>
     </RContainer>
   );

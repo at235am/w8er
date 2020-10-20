@@ -1,0 +1,15 @@
+<svg width="212" height="106" viewBox="0 0 212 106" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+<rect id="w1" x="35.3553" width="50" height="50" transform="rotate(45 35.3553 0)" fill="#6C63FF"/>
+<rect id="w2" x="106" width="50" height="100" transform="rotate(45 106 0)" fill="#373E4D"/>
+<rect id="w3" x="176" width="50" height="100" transform="rotate(45 176 0)" fill="#373E4D"/>
+<g id="eight">
+<circle id="c2" r="15.6714" transform="matrix(0.690732 0.72311 -0.690732 0.72311 99.6495 41.6644)" fill="#6C63FF"/>
+<circle id="c1" r="15.6714" transform="matrix(0.690732 0.72311 -0.690732 0.72311 77.6495 63.6644)" fill="#6C63FF"/>
+</g>
+<g id="r">
+<path id="r-top" fill-rule="evenodd" clip-rule="evenodd" d="M176 52.4482C185.513 42.9356 185.513 27.5126 176 18L141.552 52.4482C141.552 52.4482 141.552 52.4482 141.552 52.4482C151.064 61.9609 166.487 61.9609 176 52.4482Z" fill="#6C63FF"/>
+<path id="r-bottom" d="M141.552 86.8964L124.328 69.6723L158.776 35.2241L141.552 86.8964Z" fill="#6C63FF"/>
+</g>
+
+</svg>

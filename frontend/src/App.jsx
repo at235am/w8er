@@ -11,8 +11,8 @@ import { css, jsx } from "@emotion/core";
 import { useTheme } from "emotion-theming";
 import styled from "@emotion/styled";
 
-// styling from react-bootstrap 
-import 'bootstrap/dist/css/bootstrap.min.css';
+// styling from react-bootstrap
+import "bootstrap/dist/css/bootstrap.min.css";
 
 // custom components:
 import ToggleButton from "./components/buttons/ToggleButton";
@@ -20,12 +20,13 @@ import Button from "./components/buttons/Button";
 import FormInput from "./components/inputs/FormInput";
 import Sidebar from "./components/Sidebar";
 import Main from "./components/Main";
+import Navigation from "./components/Navigation";
 
 // page components:
 import SeatingLayout from "./pages/SeatingLayout";
 import Settings from "./pages/Settings";
 import Login_Signup from "./pages/login_signup";
-import Guestlist_Floormap from './pages/Guest_Floormap';
+import Guestlist_Floormap from "./pages/Guest_Floormap";
 // import index from "./pages/index";
 import Waitlist from "./pages/Waitlist";
 import Confirmation from "./pages/Confirmation";
@@ -36,7 +37,6 @@ import { SiGoogle as GoogleLogoIcon } from "react-icons/si";
 import WaitlistPage from "./pages/WaitlistPage";
 import FloorMap from "./components/layout-tools/FloorMap";
 import ReservationPage from "./pages/ReservationPage";
-
 
 // state management:
 import { useRecoilValue } from "recoil";
@@ -92,25 +92,32 @@ const App = ({ ...props }) => {
         </Helmet>
 
         <BrowserRouter>
-        {!user &&(
-             <Main>
-             <Switch> 
+          {!user && (
+            <Main>
+              <Switch>
                 <Route exact path="/" component={LandingPage} />
                 <Route exact path="/reservation" component={ReservationPage} />
-                <Route exact path="/reservation-choose-table" component={FloorMap}/> 
-                  <Route exact path="/login_signup" component={Login_Signup} />
-                  <Route exact path="/waitlist" component={Waitlist} />
-                  <Route exact path="/confirmation" component={Confirmation} />
-             </Switch>
-           </Main>
-        )}
-        {user &&(
-          <Switch>
+                <Route
+                  exact
+                  path="/reservation-choose-table"
+                  component={FloorMap}
+                />
+                <Route exact path="/login_signup" component={Login_Signup} />
+                <Route exact path="/waitlist" component={Waitlist} />
+                <Route exact path="/confirmation" component={Confirmation} />
+              </Switch>
+            </Main>
+          )}
+          {user && (
+            <Switch>
               <Route exact path="/settings" component={Settings} />
-              <Route exact path = "/guestlist_floormap" component={Guestlist_Floormap}/> 
-          </Switch>
-          
-        )}
+              <Route
+                exact
+                path="/guestlist_floormap"
+                component={Guestlist_Floormap}
+              />
+            </Switch>
+          )}
         </BrowserRouter>
       </AppContainer>
     </DndProvider>

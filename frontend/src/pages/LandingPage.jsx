@@ -34,6 +34,7 @@ const Card = styled.div`
   margin: 1rem;
   background-color: ${({ theme }) => theme.colors.surface};
   width: 30rem;
+  height: 20rem;
   /* min-height: 40rem; */
   /* height: 40rem; */
 

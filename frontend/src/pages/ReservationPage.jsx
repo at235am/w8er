@@ -9,7 +9,7 @@ import styled from "@emotion/styled";
 import FormInput from "../components/inputs/FormInput";
 import Button from "../components/buttons/Button";
 
-import {ReactComponent as ReserveGraphic} from "../assets/illustrations/reservationPageLogo.svg";
+import { ReactComponent as ReserveGraphic } from "../assets/illustrations/reservationPageLogo.svg";
 
 import DropdownButton from "react-bootstrap/DropdownButton";
 import Dropdown from "react-bootstrap/Dropdown";
@@ -17,15 +17,15 @@ import { useHistory } from "react-router-dom";
 
 import Select from "react-select";
 
-const partySizeArr = ["1","2","3","4","5","6","7","8","9","10"] 
+const partySizeArr = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
 
 const options = [
-  {value: "Yelpy", label: "Yelpy"},
-  {value: "Musky Burgers", label: "Musky Burgers"},
-  {value: "The Golden Nug", label: "The Golden Nug"},
-  {value: "Burnt Tortilla", label: "Burnt Tortilla"},
-  {value: "Toro Loco", label: "Toro Loco"},
-  {value: "The Hat", label: "The Hat"}
+  { value: "Yelpy", label: "Yelpy" },
+  { value: "Musky Burgers", label: "Musky Burgers" },
+  { value: "The Golden Nug", label: "The Golden Nug" },
+  { value: "Burnt Tortilla", label: "Burnt Tortilla" },
+  { value: "Toro Loco", label: "Toro Loco" },
+  { value: "The Hat", label: "The Hat" },
 ];
 
 const Nothing = styled.input`
@@ -69,7 +69,6 @@ const SearchBar = () => {
 
   return (
     <SearchbarContainer>
-     
       <Nothing onChange={handleChange} type="text" />
       {searchValue !== "" && (
         <DropdownR>
@@ -177,7 +176,6 @@ const TitleInput = styled.h1`
 `;
 
 const LabelAndInput = styled.div`
-  
   width: 100%;
   height: 10%;
 
@@ -186,7 +184,7 @@ const LabelAndInput = styled.div`
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  
+
   overflow: auto;
 `;
 
@@ -209,15 +207,13 @@ const ReservationPage = () => {
           history.push("/reservation-choose-table");
         }}
       >
-        
         <Title>Reservation</Title>
-  
-        <ReserveGraphic/>
+
+        <ReserveGraphic />
 
         <TitleInput>Restaurant Name</TitleInput>
         <SearchBar />
-        
-      
+
         <RFormInput
           required
           htmlFor="name"
@@ -238,15 +234,22 @@ const ReservationPage = () => {
           additionalInfo="(###-###-####)"
           maxLength={12}
         />
-        
-          <TitleInput>Party Size</TitleInput>
 
-          <DropdownButton id="party-size-dropdown" title={party} >
-              {partySizeArr.map((item,i) => {return <Dropdown.Item 
-              onClick = {() => {setPartySize(item)}}
-              >{item}</Dropdown.Item>})}
-          </DropdownButton>
-     
+        <TitleInput>Party Size</TitleInput>
+
+        <DropdownButton id="party-size-dropdown" title={party}>
+          {partySizeArr.map((item, i) => {
+            return (
+              <Dropdown.Item
+                onClick={() => {
+                  setPartySize(item);
+                }}
+              >
+                {item}
+              </Dropdown.Item>
+            );
+          })}
+        </DropdownButton>
 
         <RFormInput
           required

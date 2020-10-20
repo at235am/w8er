@@ -2,7 +2,7 @@
   "name": "w8er",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://at235am.github.io/w8er",
+  "homepage": "https://at235am.github.io/w8er",
   "dependencies": {
     "@emotion/core": "^10.0.35",
     "@emotion/styled": "^10.0.27",
@@ -29,6 +29,8 @@
     "use-resize-observer": "^6.1.0"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

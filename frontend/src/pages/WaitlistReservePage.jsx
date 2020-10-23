@@ -140,7 +140,7 @@ const SeatPickerContainer = styled.div`
 
 const RegisterPage = () => {
   const [info, setInfo] = useState("");
-  const [reserve, setReserve] = useState(true);
+  const [reserve, setReserve] = useState(false);
   const [seating, setSeating] = useState("");
   const { register, handleSubmit, errors, watch } = useForm();
 

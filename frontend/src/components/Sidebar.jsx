@@ -43,7 +43,7 @@ const sbClosed = css`
   min-width: 0;
   max-width: 0;
 
-  @media (max-width: 500px) {
+  @media (max-width: 900px) {
     width: 100%;
     min-width: 100%;
     max-width: 100%;
@@ -59,7 +59,7 @@ const sbOpened = css`
   min-width: 25rem;
   max-width: 25rem;
 
-  @media (max-width: 500px) {
+  @media (max-width: 900px) {
     width: 100%;
     min-width: 100%;
     max-width: 100%;
@@ -84,7 +84,7 @@ const pointDown = css`
 
 const sidebarItemStyles = css`
   margin-top: 1rem;
-  @media (max-width: 500px) {
+  @media (max-width: 900px) {
     margin-top: 0;
     margin-left: 1rem;
   }
@@ -104,7 +104,7 @@ const SidebarNav = styled.div`
 
   align-items: center;
 
-  @media (max-width: 500px) {
+  @media (max-width: 900px) {
     height: 4rem;
     min-height: 4rem;
 
@@ -121,7 +121,7 @@ const SidebarContainer = styled.div`
   background-color: ${({ theme }) => theme.colors.surface};
 
   border-left: 1px solid ${({ theme }) => theme.colors.outline};
-  @media (max-width: 500px) {
+  @media (max-width: 900px) {
     border-left: 0;
     border-top: 1px solid ${({ theme }) => theme.colors.outline};
   }
@@ -178,7 +178,7 @@ const ToggleSidebarButton = styled(Button)`
       transition: transform 250ms ease-out;
 
       ${({ sidebarOpen }) => (sidebarOpen ? pointLeft : pointRight)}
-      @media (max-width: 500px) {
+      @media (max-width: 900px) {
         ${({ sidebarOpen }) => (sidebarOpen ? pointUp : pointDown)}
       }
     }
@@ -237,7 +237,7 @@ const Slider = styled.div`
 
   transition: transform ease-out 200ms;
 
-  @media (max-width: 500px) {
+  @media (max-width: 900px) {
     height: 3px;
     width: 4rem;
     bottom: 0;
@@ -296,16 +296,16 @@ const Sidebar = ({ children, ...props }) => {
   const history = useHistory();
 
   const [themeToggle, toggleTheme] = useRecoilState(themeState);
-  const [mQuery, setMQuery] = useState({
-    matches: window.innerWidth > 500 ? false : true,
-  });
+  // const [mQuery, setMQuery] = useState({
+  //   matches: window.innerWidth > 500 ? false : true,
+  // });
 
-  useEffect(() => {
-    let mediaQuery = window.matchMedia("(max-width: 500px)");
-    mediaQuery.addListener(setMQuery);
+  // useEffect(() => {
+  //   let mediaQuery = window.matchMedia("(max-width: 500px)");
+  //   mediaQuery.addListener(setMQuery);
 
-    return () => mediaQuery.removeListener(setMQuery);
-  }, [sidebarOpen]);
+  //   return () => mediaQuery.removeListener(setMQuery);
+  // }, [sidebarOpen]);
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);

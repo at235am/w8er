@@ -25,7 +25,7 @@ const MainContent = styled.main`
     color: ${({ theme }) => theme.colors.onBackground};
   }
 
-  @media (max-width: 500px) {
+  @media (max-width: 900px) {
     width: 100%;
     min-width: 100%;
     max-width: 100%;

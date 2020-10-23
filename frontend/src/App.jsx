@@ -67,7 +67,7 @@ const FlexWrapper = styled.div`
   display: flex;
   flex-direction: row;
 
-  @media (max-width: 500px) {
+  @media (max-width: 900px) {
     flex-direction: column;
   }
 `;

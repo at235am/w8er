@@ -1,0 +1,6 @@
+.tooltip {
+  font-weight: bold;
+  opacity: 1  !important;
+  /* letter-spacing: 1px !important;   */
+  font-size: "14px" !important;
+}

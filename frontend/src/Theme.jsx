@@ -46,6 +46,7 @@ const baseFont = {
 
 const dimensions = {
   gridUnit: 20,
+  navSize: "4rem",
 };
 
 const themeDark = {
@@ -117,7 +118,7 @@ const GlobalReset = () => {
           font-family: ${theme.font.family};
           font-size: ${theme.font.size};
           font-weight: ${theme.font.weight};
-          color: ${theme.colors.onPrimary};
+          color: ${theme.colors.onBackground};
 
           transition: background-color 250ms ease-out;
         }

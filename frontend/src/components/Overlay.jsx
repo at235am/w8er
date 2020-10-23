@@ -23,9 +23,13 @@ const OverlayContainer = styled.div`
   width: 100%;
   /* width: 10rem; */
   height: 4rem;
-  background-color: transparent;
+  /* background-color: red; */
 
   /* padding: 1rem; // need padding (plus the extra div) to account for weird margin (on the right) issue on mobile */
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   @media (max-width: 500px) {
     ${({ sidebar }) =>
@@ -39,11 +43,13 @@ const OverlayContainer = styled.div`
 
 const Content = styled.div`
   background-color: ${({ theme }) => theme.colors.surface};
-  /* border-radius: 3px; */
+  border-radius: 10rem;
+  padding: 0 1.5rem;
 
-  width: 100%;
-  height: 100%;
+  /* width: 100%; */
+  height: 70%;
   box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.1);
+  /* border: 1px solid ${({theme}) => theme.colors.outline}; */
 
   display: flex;
   justify-content: center;
@@ -186,7 +192,7 @@ const Overlay = () => {
             </React.Fragment>
           )}
         </HeaderWrapper>
-        <StyledLogo />
+        {/* <StyledLogo /> */}
       </Content>
     </OverlayContainer>
   );

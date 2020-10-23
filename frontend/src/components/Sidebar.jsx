@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useHistory, Link } from "react-router-dom";
 // import { ReactFlowProvider } from "react-flow-renderer";
 
+import ReactTooltip from "react-tooltip";
+
 // styling:
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
 import styled from "@emotion/styled";
+import { useTheme } from "emotion-theming";
 import { rgba } from "emotion-rgba";
 
 // state management:
@@ -29,6 +32,8 @@ import { MdSettings } from "react-icons/md";
 import { IoMdListBox } from "react-icons/io";
 import { BiCustomize } from "react-icons/bi";
 import { CgDebug } from "react-icons/cg";
+
+import "./tooltip.css";
 
 const sbClosed = css`
   width: 0;
@@ -225,6 +230,7 @@ const Slider = styled.div`
 
 const navItems = [
   {
+    tooltip: "Manage Guest List",
     component: <GuestList />,
     // componentHeader: <FloorMapHeader />,
     icon: IoMdListBox,
@@ -236,6 +242,7 @@ const navItems = [
     //     info={{ id: "", data: {}, dropped: false, coordinates: { x: 0, y: 0 } }}
     //   />
     // ),
+    tooltip: "Edit Floor Map",
 
     component: <FloorMapTools />,
     // componentHeader: <FloorMapHeader />,
@@ -243,22 +250,24 @@ const navItems = [
     link: "/floor-map/edit",
   },
   {
+    tooltip: "Settings",
     // component: <Button text="hello" />,
     // componentHeader: "<FriendslistSidebarHeader />",
     icon: MdSettings,
     link: "/settings",
   },
-  {
-    component: <FloorMapToolsDemo />,
-    // componentHeader: "<FriendslistSidebarHeader />",
-    icon: CgDebug,
-  },
+  // {
+  //   component: <FloorMapToolsDemo />,
+  //   // componentHeader: "<FriendslistSidebarHeader />",
+  //   icon: CgDebug,
+  // },
 ];
 
 const Sidebar = ({ children, ...props }) => {
   // const [sidebarOpen, setSidebarOpen] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarState);
   const [itemSelected, setItemSelected] = useRecoilState(sidebarItem);
+  const theme = useTheme();
 
   const history = useHistory();
 
@@ -289,6 +298,14 @@ const Sidebar = ({ children, ...props }) => {
   return (
     <React.Fragment>
       <SidebarNav className="sb-nav">
+        <ReactTooltip
+          id="nav-item-btn"
+          place="right"
+          offset={{ right: 15 }}
+          backgroundColor={theme.colors.primary}
+          textColor="white"
+          className="tooltip"
+        />
         <Slider itemSelected={itemSelected} />
         <ToggleSidebarButton
           type="circle"
@@ -304,6 +321,8 @@ const Sidebar = ({ children, ...props }) => {
         {navItems.map((item, i) => (
           <div key={i}>
             <NavItemButton
+              data-for="nav-item-btn"
+              data-tip={item.tooltip}
               itemSelected={itemSelected}
               // settingsSelected={settingsSelected}
               index={i}

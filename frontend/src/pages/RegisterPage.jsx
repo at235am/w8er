@@ -12,6 +12,7 @@ import Card from "../components/Card";
 import Button from "../components/buttons/Button";
 import { useRecoilState } from "recoil";
 import { userState } from "../recoil/UserState";
+import { Link } from "react-router-dom";
 
 const INITIAL_ACC_INFO = {
   restaurantName: "",
@@ -65,6 +66,10 @@ const ButtonContainer = styled.div`
 
 const RegisterButton = styled(Button)`
   width: 100%;
+  min-height: 3.5rem;
+  height: 3.5rem;
+  max-height: 3.5rem;
+  margin-top: 1rem;
 `;
 
 const RegisterPage = () => {
@@ -96,6 +101,7 @@ const RegisterPage = () => {
     <RegisterContainer>
       <RegisterCard>
         {/* noValidate disables the html5 validation and its ugly messages */}
+
         <FormContainer onSubmit={handleSubmit(onSubmit)} noValidate>
           <SpacedInput
             type="text"
@@ -134,6 +140,10 @@ const RegisterPage = () => {
             onClick={() => console.log(errors)}
           />
           <ButtonContainer>
+            <RegisterButton
+              text="skip"
+              onClick={() => setUser({ sdljt: "" })}
+            />
             <RegisterButton type="submit" text="register" />
           </ButtonContainer>
         </FormContainer>

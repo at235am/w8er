@@ -48,45 +48,45 @@ const GUESTLIST = [
     seatedTime: "",
     departureTime: "",
   },
-  {
-    waitTime: new Date(CURRENT_DATE.getTime() - 15 * ONE_MINUTE_MS),
-    id: shortid.generate(),
-    name: "ricky  bobby",
-    party: "2",
-    phone: "555-555-4352",
-    table: "",
-    notes: "bring food",
-    tableAssigned: "",
-    reserveTime: "",
-    seatedTime: "",
-    departureTime: "",
-  },
-  {
-    waitTime: new Date(CURRENT_DATE.getTime() - 7 * ONE_MINUTE_MS),
-    id: shortid.generate(),
-    name: "Bob",
-    party: "13",
-    phone: "310-135-4352",
-    table: "",
-    notes: "i'm thinking about dropping danny green for missing that last 3",
-    tableAssigned: "",
-    reserveTime: "",
-    seatedTime: "",
-    departureTime: "",
-  },
-  {
-    waitTime: new Date(CURRENT_DATE.getTime() - 71 * ONE_MINUTE_MS),
-    id: shortid.generate(),
-    name: "michael jackson",
-    party: "4",
-    phone: "123-565-5685",
-    table: "",
-    notes: "",
-    tableAssigned: "",
-    reserveTime: "",
-    seatedTime: "",
-    departureTime: "",
-  },
+  // {
+  //   waitTime: new Date(CURRENT_DATE.getTime() - 15 * ONE_MINUTE_MS),
+  //   id: shortid.generate(),
+  //   name: "ricky  bobby",
+  //   party: "2",
+  //   phone: "555-555-4352",
+  //   table: "",
+  //   notes: "bring food",
+  //   tableAssigned: "",
+  //   reserveTime: "",
+  //   seatedTime: "",
+  //   departureTime: "",
+  // },
+  // {
+  //   waitTime: new Date(CURRENT_DATE.getTime() - 7 * ONE_MINUTE_MS),
+  //   id: shortid.generate(),
+  //   name: "Bob",
+  //   party: "13",
+  //   phone: "310-135-4352",
+  //   table: "",
+  //   notes: "i'm thinking about dropping danny green for missing that last 3",
+  //   tableAssigned: "",
+  //   reserveTime: "",
+  //   seatedTime: "",
+  //   departureTime: "",
+  // },
+  // {
+  //   waitTime: new Date(CURRENT_DATE.getTime() - 71 * ONE_MINUTE_MS),
+  //   id: shortid.generate(),
+  //   name: "michael jackson",
+  //   party: "4",
+  //   phone: "123-565-5685",
+  //   table: "",
+  //   notes: "",
+  //   tableAssigned: "",
+  //   reserveTime: "",
+  //   seatedTime: "",
+  //   departureTime: "",
+  // },
   {
     waitTime: new Date(
       new Date(CURRENT_DATE.getTime() + 7 * ONE_MINUTE_MS).getTime() -
@@ -103,52 +103,52 @@ const GUESTLIST = [
     seatedTime: "",
     departureTime: "",
   },
-  {
-    waitTime: new Date(
-      new Date(CURRENT_DATE.getTime() + 30 * ONE_MINUTE_MS).getTime() -
-        RESERVE_OFFSET
-    ),
-    id: shortid.generate(),
-    name: "Penny Cilin",
-    party: "1",
-    phone: "456-789-1238",
-    table: "",
-    notes: "",
-    tableAssigned: "",
-    reserveTime: new Date(CURRENT_DATE.getTime() + 30 * ONE_MINUTE_MS),
-    seatedTime: "",
-    departureTime: "",
-  },
-  {
-    waitTime: new Date(
-      new Date(CURRENT_DATE.getTime() - 8 * ONE_MINUTE_MS).getTime() -
-        RESERVE_OFFSET
-    ),
-    id: shortid.generate(),
-    name: "Harambe",
-    party: "16",
-    phone: "456-789-1238",
-    table: "6H",
-    notes: "",
-    tableAssigned: "",
-    reserveTime: new Date(CURRENT_DATE.getTime() - 8 * ONE_MINUTE_MS),
-    seatedTime: "",
-    departureTime: "",
-  },
-  {
-    waitTime: new Date(CURRENT_DATE.getTime() - 32 * ONE_MINUTE_MS),
-    id: shortid.generate(),
-    seated: true,
-    name: "t pain",
-    party: "1",
-    phone: "456-789-1238",
-    table: "",
-    notes: "",
-    tableAssigned: "",
-    reserveTime: "",
-    seatedTime: "",
-    departureTime: "",
-  },
+  // {
+  //   waitTime: new Date(
+  //     new Date(CURRENT_DATE.getTime() + 30 * ONE_MINUTE_MS).getTime() -
+  //       RESERVE_OFFSET
+  //   ),
+  //   id: shortid.generate(),
+  //   name: "Penny Cilin",
+  //   party: "1",
+  //   phone: "456-789-1238",
+  //   table: "",
+  //   notes: "",
+  //   tableAssigned: "",
+  //   reserveTime: new Date(CURRENT_DATE.getTime() + 30 * ONE_MINUTE_MS),
+  //   seatedTime: "",
+  //   departureTime: "",
+  // },
+  // {
+  //   waitTime: new Date(
+  //     new Date(CURRENT_DATE.getTime() - 8 * ONE_MINUTE_MS).getTime() -
+  //       RESERVE_OFFSET
+  //   ),
+  //   id: shortid.generate(),
+  //   name: "Harambe",
+  //   party: "16",
+  //   phone: "456-789-1238",
+  //   table: "6H",
+  //   notes: "",
+  //   tableAssigned: "",
+  //   reserveTime: new Date(CURRENT_DATE.getTime() - 8 * ONE_MINUTE_MS),
+  //   seatedTime: "",
+  //   departureTime: "",
+  // },
+  // {
+  //   waitTime: new Date(CURRENT_DATE.getTime() - 32 * ONE_MINUTE_MS),
+  //   id: shortid.generate(),
+  //   seated: true,
+  //   name: "t pain",
+  //   party: "1",
+  //   phone: "456-789-1238",
+  //   table: "",
+  //   notes: "",
+  //   tableAssigned: "",
+  //   reserveTime: "",
+  //   seatedTime: "",
+  //   departureTime: "",
+  // },
 ].sort((a, b) => {
   const wtA = a.waitTime.getTime();
   const wtB = b.waitTime.getTime();
@@ -294,6 +294,17 @@ const Divider = styled.div`
   }
 `;
 
+const AddText = styled.p`
+  /* background-color: red; */
+  color: ${({ theme }) => theme.colors.error};
+  font-weight: bold;
+  font-style: italic;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
 const GuestList = () => {
   const [guestList, setGuestList] = useState(GUESTLIST);
   // const [guestList, setGuestList] = useState([]);
@@ -379,6 +390,9 @@ const GuestList = () => {
       </Divider>
       {mustServeOpen && (
         <ListContainer className="guest-list">
+          {guestList.length < 3 && (
+            <AddText>(try adding more guests with the + button)</AddText>
+          )}
           {guestList
             .filter((guest) => !guest.seatedTime)
             .map((guest, i) => (

@@ -133,7 +133,7 @@ const FloorMapEdit = () => {
   return (
     <FloorMapContainer
       ref={fmRef}
-      // onClick={(e) => console.log("xy", e.clientX, e.clientY)}
+      onClick={(e) => console.log("got some", JSON.stringify(items))}
     >
       <DropTarget ref={drop}>
         {/* <button onClick={() => console.log(items)}>FLOOR MAP EDIT</button> */}

@@ -13,6 +13,7 @@ import editFloorMap from "../assets/gif-previews/edit-floor-map.gif";
 import addToWaitlist from "../assets/gif-previews/add-to-waitlist.gif";
 import assignSeats from "../assets/gif-previews/assign-seats.gif";
 import moveSubList from "../assets/gif-previews/move-sub-lists.gif";
+import { Link } from "react-router-dom";
 
 const FeaturesContainer = styled.div`
   display: flex;
@@ -67,6 +68,12 @@ const FeatureHeader = styled.h2`
   margin-bottom: 1rem;
 `;
 
+const HighlightLink = styled(Link)`
+  font-weight: bold;
+
+  color: ${({ theme }) => theme.colors.primary};
+`;
+
 const FeaturesPage = () => {
   return (
     <FeaturesContainer>
@@ -78,6 +85,13 @@ const FeaturesPage = () => {
             Please play around with the app to discover more. Keep in mind that
             at this time, nothing you input on our site will be saved. This is
             purely a frontend UI for you to test and critique!
+          </FeatureDescription>
+
+          <FeatureDescription>
+            To test out our features, use our fake sign up form here:{" "}
+            <HighlightLink to="/register">
+              manage your restaurant!
+            </HighlightLink>
           </FeatureDescription>
         </FeatureWrapper>
         <FeatureWrapper>

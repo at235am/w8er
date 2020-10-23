@@ -88,15 +88,12 @@ const App = ({ ...props }) => {
             <meta name="theme-color" content={theme.colors.primary} />
           </Helmet>
 
-          <BrowserRouter basename="/w8er">
+          <BrowserRouter>
             {user && (
               <FlexWrapper>
                 <Sidebar />
                 <Main>
                   <Switch>
-                    <Route exact path="/">
-                      <Redirect to="/floor-map" />
-                    </Route>
                     <Route exact path="/floor-map" component={FloorMap} />
                     <Route
                       exact
@@ -104,6 +101,9 @@ const App = ({ ...props }) => {
                       component={FloorMapEdit}
                     />
                     <Route exact path="/settings" component={Settings} />
+                    <Route path="/">
+                      <Redirect to="/floor-map" />
+                    </Route>
                   </Switch>
                 </Main>
                 <Overlay />
@@ -121,6 +121,9 @@ const App = ({ ...props }) => {
                   path="/miles-steakhouse"
                   component={WaitListReservePage}
                 />
+                <Route path="/">
+                  <Redirect to="/" />
+                </Route>
               </Switch>
             )}
           </BrowserRouter>

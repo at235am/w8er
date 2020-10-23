@@ -2,7 +2,6 @@
   "name": "w8er",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://at235am.github.io/w8er",
   "dependencies": {
     "@emotion/core": "^10.0.35",
     "@emotion/styled": "^10.0.27",
@@ -20,17 +19,17 @@
     "react-helmet-async": "^1.0.7",
     "react-hook-form": "^6.9.2",
     "react-icons": "^3.11.0",
+    "react-modal": "^3.11.2",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "react-select": "^3.1.0",
+    "react-tooltip": "^4.2.10",
     "recoil": "0.0.10",
     "resize-observer-polyfill": "^1.5.1",
     "shortid": "^2.2.15",
     "use-resize-observer": "^6.1.0"
   },
   "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

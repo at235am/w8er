@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import useResizeObserver from "use-resize-observer";
 
+import ReactTooltip from "react-tooltip";
+
 // styling:
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
 import styled from "@emotion/styled";
+import { useTheme } from "emotion-theming";
 import { rgba } from "emotion-rgba";
 
 // custom components:
@@ -152,6 +155,8 @@ const DrawerHeader = ({
   const cr1 = useResizeObserver();
   const cr2 = useResizeObserver();
 
+  const theme = useTheme();
+
   useEffect(() => {
     if (headerRef) setHeaderHeight(headerRef.current.clientHeight);
   }, [headerRef]);
@@ -187,9 +192,19 @@ const DrawerHeader = ({
   return (
     <React.Fragment>
       <HeaderContainer ref={headerRef}>
+        <ReactTooltip
+          id="drawer-header-btn"
+          place="bottom"
+          offset={{ bottom: 8 }}
+          backgroundColor={theme.colors.primary}
+          textColor="white"
+          className="tooltip"
+        />
         {newDrawerComponent1 && (
           <div className="btn-container">
             <HeaderButton
+              data-tip="Options"
+              data-for="drawer-header-btn"
               type="circle"
               openContent={drawerBtn1}
               buttonOpen={drawerBtn1}
@@ -214,6 +229,8 @@ const DrawerHeader = ({
         {newDrawerComponent2 && (
           <div className="btn-container">
             <HeaderButton
+              data-tip="Add Guest"
+              data-for="drawer-header-btn"
               type="circle"
               addGuestOpen={drawerBtn2}
               openContent={drawerBtn2}

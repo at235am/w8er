@@ -157,7 +157,7 @@ const FloorMapEdit = () => {
             size={1}
           />
 
-          <MiniMap
+          {/* <MiniMap
             nodeColor={(node) => {
               switch (node.type) {
                 case "input":
@@ -170,7 +170,7 @@ const FloorMapEdit = () => {
                   return "#eee";
               }
             }}
-          />
+          /> */}
         </ReactFlow>
       </DropTarget>
     </FloorMapContainer>

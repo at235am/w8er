@@ -13,6 +13,7 @@ import Button from "../components/buttons/Button";
 import { useRecoilState } from "recoil";
 import { userState } from "../recoil/UserState";
 import SelectSlider from "../components/inputs/SelectSlider";
+import SeatPicker from "../components/SeatPicker";
 
 const INITIAL_ACC_INFO = {
   restaurantName: "",
@@ -30,6 +31,10 @@ const RegisterContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: 1050px) {
+    flex-direction: column;
+  }
 `;
 
 const RegisterCard = styled(Card)`
@@ -123,10 +128,20 @@ const Confirm = styled.p`
   color: ${({ theme }) => theme.colors.primary};
 `;
 
+const SeatPickerContainer = styled.div`
+  width: 40rem;
+  height: 40rem;
+  padding: 0.5rem;
+
+  background-color: ${({ theme }) => theme.colors.surface};
+  border: 1px solid ${({ theme }) => theme.colors.outline};
+  border-bottom: 4px solid ${({ theme }) => theme.colors.outline};
+`;
+
 const RegisterPage = () => {
   const [info, setInfo] = useState("");
-  const [reserve, setReserve] = useState(false);
-  const [seating, seatSeating] = useState("");
+  const [reserve, setReserve] = useState(true);
+  const [seating, setSeating] = useState("");
   const { register, handleSubmit, errors, watch } = useForm();
 
   const name = {
@@ -215,19 +230,18 @@ const RegisterPage = () => {
                 <SelectSlider
                   label="table"
                   options={[
-                    "B5",
-                    "C9",
-                    "2",
-                    "3B",
-                    "A4",
+                    "A",
+                    "B",
+                    "C",
+                    "D",
+                    "E",
+                    "F",
+                    "G",
+                    "B2",
+                    "ALT",
                     "F4",
-                    "3C",
-                    "T5",
-                    "B8",
-                    "9F",
-                    "Z3",
                   ]}
-                  handleChange={seatSeating}
+                  handleChange={setSeating}
                   value={seating}
                 ></SelectSlider>
               </React.Fragment>
@@ -244,6 +258,11 @@ const RegisterPage = () => {
           <Confirm>Confirmed</Confirm>
         )}
       </RegisterCard>
+      {reserve && (
+        <SeatPickerContainer>
+          <SeatPicker options={[]} handleChange={setSeating} value={seating} />
+        </SeatPickerContainer>
+      )}
     </RegisterContainer>
   );
 };

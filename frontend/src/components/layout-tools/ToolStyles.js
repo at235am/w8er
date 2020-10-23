@@ -121,6 +121,7 @@ const Label = styled.label`
   width: 100%;
   height: 100%;
 
+  color: white;
   font-weight: bold;
   text-transform: uppercase;
 
@@ -184,11 +185,12 @@ const LabelInput = styled.input`
 //   }}
 
 const overlayControls = (theme) => css`
-  position: absolute;
+  /* position: absolute; */
   background-color: transparent;
 
-  top: -3rem;
+  /* top: -3rem; */
   cursor: pointer;
+  margin-left: 0.5rem;
 
   svg {
     width: 2rem;
@@ -197,11 +199,20 @@ const overlayControls = (theme) => css`
       fill: ${theme.colors.onBackground};
     }
   }
+
+  &:hover {
+    svg {
+      path {
+        fill: ${theme.colors.primary};
+      }
+    }
+  }
 `;
 
 const RotateCCWControl = styled.button`
   ${({ theme }) => overlayControls(theme)}
   left: 0;
+  margin-left: 0;
 `;
 
 const RotateCWControl = styled.button`
@@ -225,12 +236,25 @@ const IncreaseSize = styled.button`
   or any event on MOBILE; it still worked as normal on desktop or minimized desktop.
 */
 const HiddenHack = styled.div`
+  position: absolute;
+  top: -4rem;
+  left: 0;
+  background-color: ${({ theme }) => theme.colors.surface};
+
+  border: 1px solid ${({ theme }) => theme.colors.outline};
+  box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 5rem;
   ${({ selected }) =>
     !selected
       ? css`
           display: none;
         `
-      : null}
+      : css`
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        `}
 `;
 
 const opacityStyle = css`

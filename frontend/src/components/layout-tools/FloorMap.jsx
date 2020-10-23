@@ -6,7 +6,7 @@ import { HiUser } from "react-icons/hi";
 
 // styling:
 /** @jsx jsx */
-import { css, jsx } from "@emotion/core";
+import { css, jsx, ClassNames } from "@emotion/core";
 import styled from "@emotion/styled";
 
 import { useDrop } from "react-dnd";
@@ -23,6 +23,8 @@ import {
   Triangle,
 } from "../layout-tools/ToolNodeDisplay";
 import { useRecoilState } from "recoil";
+
+// import "../idk.css";
 
 const shortid = require("shortid");
 
@@ -101,21 +103,26 @@ const FloorMap = () => {
           size={1}
         />
 
-        <MiniMap
-          nodeColor={(node) => {
+        {/* <MiniMap
+          nodeClassName={(node) => {
             switch (node.type) {
-              case "input":
-                return "red";
-              case "default":
-                return "#00ff00";
-              case "output":
-                return "rgb(0,0,255)";
+              case "square":
+                return "square";
+              case "circle":
+                return "circle";
+              case "halfCircle":
+                return "halfCircle";
+              case "lshape":
+                return "lshape";
+              case "rectangle":
+                return "rectangle";
+              case "triangle":
+                return "triangle";
               default:
                 return "#eee";
             }
           }}
-        />
-        {/* <TestComp /> */}
+        /> */}
       </ReactFlow>
     </FloorMapContainer>
   );

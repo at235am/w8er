@@ -390,9 +390,9 @@ const GuestList = () => {
       </Divider>
       {mustServeOpen && (
         <ListContainer className="guest-list">
-          {guestList.length < 3 && (
+          {/* {guestList.length < 3 && (
             <AddText>(try adding more guests with the + button)</AddText>
-          )}
+          )} */}
           {guestList
             .filter((guest) => !guest.seatedTime)
             .map((guest, i) => (

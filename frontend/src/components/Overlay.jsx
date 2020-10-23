@@ -49,7 +49,7 @@ const Content = styled.div`
   /* width: 100%; */
   height: 70%;
   box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.1);
-  /* border: 1px solid ${({theme}) => theme.colors.outline}; */
+  /* border: 1px solid ${({ theme }) => theme.colors.outline}; */
 
   display: flex;
   justify-content: center;
@@ -80,16 +80,26 @@ const Header = styled.h1`
   font-size: 1.2rem;
   text-transform: uppercase;
   letter-spacing: 2px;
-`;
 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+const LiveEditToggleWrapper = styled.div`
+  display: flex;
+  border-radius: 5rem;
+  overflow: hidden;
+  margin-left: 1rem;
+`;
 const highlight = ({ theme }) => css`
   font-weight: bold;
   text-transform: uppercase;
   font-size: 1.2rem;
-  padding: 0.25rem 0.5rem;
+  padding: 0.25rem 1rem;
   letter-spacing: 2px;
   /* color: ${theme.colors.surface}; */
   color: white;
+  /* padding: 0 0.5rem; */
 `;
 
 const LiveHighlight = styled.span`
@@ -157,30 +167,35 @@ const Overlay = () => {
         <HeaderWrapper>
           {history.location.pathname === "/floor-map" && (
             <Header>
-              Floor Map: <LiveHighlight>live</LiveHighlight>
-              <NeutralHighlight
-                onClick={() => {
-                  setSbItem(1);
-                  history.push("/floor-map/edit");
-                }}
-              >
-                edit
-              </NeutralHighlight>
+              Floor Map:
+              <LiveEditToggleWrapper>
+                <LiveHighlight>live</LiveHighlight>
+                <NeutralHighlight
+                  onClick={() => {
+                    setSbItem(1);
+                    history.push("/floor-map/edit");
+                  }}
+                >
+                  edit
+                </NeutralHighlight>
+              </LiveEditToggleWrapper>
             </Header>
           )}
 
           {history.location.pathname === "/floor-map/edit" && (
             <Header>
-              Floor Map:{" "}
-              <NeutralHighlight
-                onClick={() => {
-                  setSbItem(0);
-                  history.push("/floor-map");
-                }}
-              >
-                live
-              </NeutralHighlight>
-              <EditHighlight>edit</EditHighlight>
+              Floor Map:
+              <LiveEditToggleWrapper>
+                <NeutralHighlight
+                  onClick={() => {
+                    setSbItem(0);
+                    history.push("/floor-map");
+                  }}
+                >
+                  live
+                </NeutralHighlight>
+                <EditHighlight>edit</EditHighlight>
+              </LiveEditToggleWrapper>
             </Header>
           )}
 

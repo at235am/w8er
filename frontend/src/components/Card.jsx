@@ -16,7 +16,7 @@ const CardContainer = styled.div`
   border-radius: 5px;
   border: 1px solid ${({ theme }) => theme.colors.outline};
   border-bottom: 4px solid ${({ theme }) => theme.colors.outline};
-  border-right: 4px solid ${({ theme }) => theme.colors.outline};
+  /* border-right: 4px solid ${({ theme }) => theme.colors.outline}; */
 
   transition-property: width, height, border-bottom, border-right;
   transition-duration: 200ms;
@@ -32,7 +32,7 @@ const CardContainer = styled.div`
   &:hover {
     /* border: 1px solid ${({ theme }) => theme.colors.primary}; */
     border-bottom: 4px solid ${({ theme }) => theme.colors.primary};
-    border-right: 4px solid ${({ theme }) => theme.colors.primary};
+    /* border-right: 4px solid ${({ theme }) => theme.colors.primary}; */
   }
 
   svg {

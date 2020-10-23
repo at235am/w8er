@@ -27,11 +27,12 @@ const InputWrapper = styled.div`
   background-color: ${({ theme }) => theme.colors.background};
 
   input[type="datetime-local"] {
-    color: ${({ theme, value }) => (value ? "#111" : theme.colors.onSurface)};
+    color: ${({ theme, value }) =>
+      value ? theme.colors.onBackground : theme.colors.background};
 
     &:focus-within,
     &:focus {
-      color: #111;
+      color: ${({ theme }) => theme.colors.onBackground};
     }
   }
 `;

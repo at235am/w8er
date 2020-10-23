@@ -9,8 +9,10 @@ const MainContent = styled.main`
   background-color: ${({ theme }) => theme.colors.background};
   z-index: 1;
 
-  width: 100%;
+  width: calc(100% - 4rem);
   height: 100%;
+
+  /* flex: 1; */
   /* padding: 1rem; */
   /* margin: 1rem; */
 
@@ -27,6 +29,8 @@ const MainContent = styled.main`
     width: 100%;
     min-width: 100%;
     max-width: 100%;
+
+    height: calc(100% - 4rem);
 
     flex: 1;
 

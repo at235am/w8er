@@ -45,7 +45,9 @@ const itemSelectedStyle = ({ theme, glow }) => css`
 const OptionItem = styled.div`
   ${itemSelectedStyle}
 
-  padding: 0.25rem .70rem;
+  cursor: pointer;
+
+  padding: 0.25rem 0.7rem;
   border-radius: 3px;
 
   margin-right: 4px;
@@ -129,6 +131,10 @@ const SelectSlider = ({ label, options, handleChange, value, ...props }) => {
 
     // setCurrentPosition((currentPosition + (dragStart.x - dragEnd.x)) * 0.1);
   }, [dragEnd]);
+
+  useEffect(() => {
+    setItemSelected(value);
+  }, [value]);
 
   const finishDrag = (e) => {
     setDragEnd({ x: e.clientX, y: e.clientY });

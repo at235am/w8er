@@ -32,8 +32,11 @@ import { MdSettings } from "react-icons/md";
 import { IoMdListBox } from "react-icons/io";
 import { BiCustomize } from "react-icons/bi";
 import { CgDebug } from "react-icons/cg";
+import { IoMdLogOut } from "react-icons/io";
+import { MdBrightness4, MdBrightness7 } from "react-icons/md";
 
 import "./tooltip.css";
+import { userState } from "../recoil/UserState";
 
 const sbClosed = css`
   width: 0;
@@ -202,6 +205,25 @@ const NavItemButton = styled(Button)`
   }
 `;
 
+const NavItemButton2 = styled(Button)`
+  ${navBtnSize}
+
+  /* ${sidebarItemStyles} */
+
+ 
+ 
+  .btn-icon {
+    svg {
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+
+  &:hover {
+    ${navItemSelected}
+  }
+`;
+
 const Slider = styled.div`
   background-color: ${({ theme }) => theme.colors.primary};
   height: 4rem;
@@ -256,6 +278,7 @@ const navItems = [
     icon: MdSettings,
     link: "/settings",
   },
+
   // {
   //   component: <FloorMapToolsDemo />,
   //   // componentHeader: "<FriendslistSidebarHeader />",
@@ -267,6 +290,7 @@ const Sidebar = ({ children, ...props }) => {
   // const [sidebarOpen, setSidebarOpen] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarState);
   const [itemSelected, setItemSelected] = useRecoilState(sidebarItem);
+  const [user, setUser] = useRecoilState(userState);
   const theme = useTheme();
 
   const history = useHistory();
@@ -343,13 +367,38 @@ const Sidebar = ({ children, ...props }) => {
             />
           </div>
         ))}
-
-        <ToggleButton
+        {/* <ToggleButton
           orientation={`${mQuery.matches ? "horizontal" : "vertical"}`}
           label="theme"
           value={themeToggle}
           onClick={() => toggleTheme(!themeToggle)}
           css={sidebarItemStyles}
+        /> */}
+        <NavItemButton2
+          data-for="nav-item-btn"
+          data-tip={
+            themeToggle ? "Toggle on Light Theme" : "Toggle on Dark Theme"
+          }
+          // itemSelected={itemSelected}
+          // settingsSelected={settingsSelected}
+          // index={i}
+          type="circle"
+          icon={themeToggle ? MdBrightness7 : MdBrightness4}
+          onClick={() => {
+            toggleTheme(!themeToggle);
+          }}
+        />
+        <NavItemButton2
+          data-for="nav-item-btn"
+          data-tip="Logout"
+          // itemSelected={itemSelected}
+          // settingsSelected={settingsSelected}
+          // index={i}
+          type="circle"
+          icon={IoMdLogOut}
+          onClick={() => {
+            setUser(null);
+          }}
         />
       </SidebarNav>
       <SidebarContainer

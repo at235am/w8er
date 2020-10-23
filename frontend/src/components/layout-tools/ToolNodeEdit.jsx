@@ -158,18 +158,18 @@ const ToolNode = memo(
           }}
         />
         <HiddenHack selected={selected}>
-          <IncreaseSize {...increaseSizePressActions}>
-            <MdAddCircleOutline />
-          </IncreaseSize>
-          <DecreaseSize {...decreaseSizePressActions}>
-            <MdRemoveCircleOutline />
-          </DecreaseSize>
-          <RotateCWControl {...cwLongPressAction}>
-            <BiRotateRight />
-          </RotateCWControl>
           <RotateCCWControl {...ccwLongPressAction}>
             <BiRotateLeft />
           </RotateCCWControl>
+          <RotateCWControl {...cwLongPressAction}>
+            <BiRotateRight />
+          </RotateCWControl>
+          <DecreaseSize {...decreaseSizePressActions}>
+            <MdRemoveCircleOutline />
+          </DecreaseSize>
+          <IncreaseSize {...increaseSizePressActions}>
+            <MdAddCircleOutline />
+          </IncreaseSize>
         </HiddenHack>
       </ToolContainer>
     );

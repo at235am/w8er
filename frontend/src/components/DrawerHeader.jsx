@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import useResizeObserver from "use-resize-observer";
+import useResizeObserver from "use-resize-observer/polyfilled";
 
 import ReactTooltip from "react-tooltip";
 
@@ -192,19 +192,19 @@ const DrawerHeader = ({
   return (
     <React.Fragment>
       <HeaderContainer ref={headerRef}>
-        <ReactTooltip
+        {/* <ReactTooltip
           id="drawer-header-btn"
           place="bottom"
           offset={{ bottom: 8 }}
           backgroundColor={theme.colors.primary}
           textColor="white"
           className="tooltip"
-        />
+        /> */}
         {newDrawerComponent1 && (
           <div className="btn-container">
             <HeaderButton
-              data-tip="Options"
-              data-for="drawer-header-btn"
+              // data-tip="Options"
+              // data-for="drawer-header-btn"
               type="circle"
               openContent={drawerBtn1}
               buttonOpen={drawerBtn1}
@@ -229,8 +229,8 @@ const DrawerHeader = ({
         {newDrawerComponent2 && (
           <div className="btn-container">
             <HeaderButton
-              data-tip="Add Guest"
-              data-for="drawer-header-btn"
+              // data-tip="Add Guest"
+              // data-for="drawer-header-btn"
               type="circle"
               addGuestOpen={drawerBtn2}
               openContent={drawerBtn2}

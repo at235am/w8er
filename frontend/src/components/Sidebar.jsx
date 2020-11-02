@@ -33,7 +33,8 @@ import { IoMdListBox } from "react-icons/io";
 import { BiCustomize } from "react-icons/bi";
 import { CgDebug } from "react-icons/cg";
 import { IoMdLogOut } from "react-icons/io";
-import { MdBrightness4, MdBrightness7 } from "react-icons/md";
+import { MdBrightness4, MdBrightness7, MdTextFields } from "react-icons/md";
+import { BsLayoutTextSidebar } from "react-icons/bs";
 
 import "./tooltip.css";
 import { userState } from "../recoil/UserState";
@@ -95,6 +96,12 @@ const SidebarNav = styled.div`
   background-color: ${({ theme }) => theme.colors.surface};
   /* background-color: red; */
 
+  /* ${({ open }) =>
+    open
+      ? null
+      : css`
+          width: 4rem;
+        `} */
   z-index: 11;
 
   /* min-width: 4rem;
@@ -148,27 +155,56 @@ const navItemSelected = (props) => css`
   }
 `;
 
-const navBtnSize = ({ theme }) => css`
-  width: 4rem;
+const navBtnSize = ({ theme, showText }) => css`
+  width: 9rem;
   height: 4rem;
   border-radius: 0;
   background-color: transparent;
+  padding: 0;
+  justify-content: flex-end;
+
+  transition: width 200ms ease-out;
+
+  &:hover {
+    background-color: ${theme.colors.background};
+  }
 
   .btn-icon {
+    width: 4rem;
     svg {
       path {
         fill: ${theme.colors.onBackground};
       }
     }
   }
+
+  .btn-text {
+    margin: 0;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 0.9rem;
+    color: ${theme.colors.onBackground};
+  }
+
+  ${showText
+    ? null
+    : css`
+        width: 4rem;
+        .btn-text {
+          display: none;
+        }
+      `}
+
+  @media (max-width: 900px) {
+    width: 4rem;
+    .btn-text {
+      display: none;
+    }
+  }
 `;
 
 const ToggleSidebarButton = styled(Button)`
   ${navBtnSize}
-
-  &:hover {
-    ${navItemSelected}
-  }
 
   .btn-icon {
     svg {
@@ -192,16 +228,14 @@ const NavItemButton = styled(Button)`
 
   ${({ itemSelected, index }) =>
     itemSelected === index ? navItemSelected : null}
-  
+
+ 
+
   .btn-icon {
     svg {
       width: 1.5rem;
       height: 1.5rem;
     }
-  }
-
-  &:hover {
-    ${navItemSelected}
   }
 `;
 
@@ -209,18 +243,20 @@ const NavItemButton2 = styled(Button)`
   ${navBtnSize}
 
   /* ${sidebarItemStyles} */
+  @media (max-width: 900px) {
+    ${({ exclude }) =>
+      exclude
+        ? css`
+            display: none;
+          `
+        : null}
+  }
 
- 
- 
   .btn-icon {
     svg {
       width: 1.5rem;
       height: 1.5rem;
     }
-  }
-
-  &:hover {
-    ${navItemSelected}
   }
 `;
 
@@ -253,43 +289,32 @@ const Slider = styled.div`
 const navItems = [
   {
     tooltip: "Manage Guest List",
+    name: "Guestlist",
     component: <GuestList />,
-    // componentHeader: <FloorMapHeader />,
     icon: IoMdListBox,
     link: "/floor-map",
   },
   {
-    // component: (
-    //   <Tool
-    //     info={{ id: "", data: {}, dropped: false, coordinates: { x: 0, y: 0 } }}
-    //   />
-    // ),
     tooltip: "Edit Floor Map",
-
+    name: "edit map",
     component: <FloorMapTools />,
-    // componentHeader: <FloorMapHeader />,
     icon: BiCustomize,
     link: "/floor-map/edit",
   },
   {
     tooltip: "Settings",
-    // component: <Button text="hello" />,
-    // componentHeader: "<FriendslistSidebarHeader />",
+    name: "settings",
     icon: MdSettings,
     link: "/settings",
   },
-
-  // {
-  //   component: <FloorMapToolsDemo />,
-  //   // componentHeader: "<FriendslistSidebarHeader />",
-  //   icon: CgDebug,
-  // },
 ];
 
 const Sidebar = ({ children, ...props }) => {
   // const [sidebarOpen, setSidebarOpen] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarState);
+  const [sidenavOpen, setSidenavOpen] = useState(true);
   const [itemSelected, setItemSelected] = useRecoilState(sidebarItem);
+
   const [user, setUser] = useRecoilState(userState);
   const theme = useTheme();
 
@@ -321,18 +346,21 @@ const Sidebar = ({ children, ...props }) => {
 
   return (
     <React.Fragment>
+      {/* <TextSideNav></TextSideNav> */}
       <SidebarNav className="sb-nav">
-        <ReactTooltip
+        {/* <ReactTooltip
           id="nav-item-btn"
           place="right"
           offset={{ right: 15 }}
           backgroundColor={theme.colors.primary}
           textColor="white"
           className="tooltip"
-        />
+        /> */}
         <Slider itemSelected={itemSelected} />
         <ToggleSidebarButton
-          type="circle"
+          // type="circle"
+          text={sidebarOpen ? "close" : "open"}
+          showText={sidenavOpen}
           icon={MdChevronRight}
           onClick={() => {
             if (itemSelected === 2) {
@@ -345,12 +373,14 @@ const Sidebar = ({ children, ...props }) => {
         {navItems.map((item, i) => (
           <div key={i}>
             <NavItemButton
-              data-for="nav-item-btn"
-              data-tip={item.tooltip}
+              // data-for="nav-item-btn"
+              // data-tip={item.tooltip}
+              showText={sidenavOpen}
               itemSelected={itemSelected}
               // settingsSelected={settingsSelected}
+              text={item.name}
               index={i}
-              type="circle"
+              // type="circle"
               icon={item.icon}
               onClick={() => {
                 if (itemSelected === i && item.component) {
@@ -375,26 +405,41 @@ const Sidebar = ({ children, ...props }) => {
           css={sidebarItemStyles}
         /> */}
         <NavItemButton2
-          data-for="nav-item-btn"
-          data-tip={
-            themeToggle ? "Toggle on Light Theme" : "Toggle on Dark Theme"
-          }
+          // data-for="nav-item-btn"
+          // data-tip={
+          //   themeToggle ? "Toggle on Light Theme" : "Toggle on Dark Theme"
+          // }
           // itemSelected={itemSelected}
           // settingsSelected={settingsSelected}
           // index={i}
-          type="circle"
+          // type="circle"
+          showText={sidenavOpen}
+          text="theme"
           icon={themeToggle ? MdBrightness7 : MdBrightness4}
           onClick={() => {
             toggleTheme(!themeToggle);
           }}
         />
+
         <NavItemButton2
-          data-for="nav-item-btn"
-          data-tip="Logout"
+          exclude={true}
+          showText={sidenavOpen}
+          text="minify"
+          icon={MdTextFields}
+          onClick={() => {
+            // setUser(null);
+            setSidenavOpen(!sidenavOpen);
+          }}
+        />
+        <NavItemButton2
+          // data-for="nav-item-btn"
+          // data-tip="Logout"
           // itemSelected={itemSelected}
           // settingsSelected={settingsSelected}
           // index={i}
-          type="circle"
+          // type="circle"
+          showText={sidenavOpen}
+          text="logout"
           icon={IoMdLogOut}
           onClick={() => {
             setUser(null);

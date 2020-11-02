@@ -136,7 +136,8 @@ const GlobalReset = () => {
 
             #root {
               width: 100%;
-              flex-grow: 1;
+              /* flex-grow: 1; */
+              flex: 1;
 
               /* CHANGE BG GRADIENTS HERE: */
               /* background: linear-gradient(

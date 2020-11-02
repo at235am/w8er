@@ -142,7 +142,10 @@ const RegisterPage = () => {
           <ButtonContainer>
             <RegisterButton
               text="skip"
-              onClick={() => setUser({ sdljt: "" })}
+              onClick={(e) => {
+                e.preventDefault();
+                setUser({ sdljt: "" });
+              }}
             />
             <RegisterButton type="submit" text="register" />
           </ButtonContainer>

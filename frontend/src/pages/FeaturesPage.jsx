@@ -111,7 +111,7 @@ const FeaturesPage = () => {
           <GifPreview src={moveSubList} alt="move to subList" />
         </FeatureWrapper>
       </WidthEqual>
-      <FloorMapBackground />
+      {/* <FloorMapBackground /> */}
     </FeaturesContainer>
   );
 };

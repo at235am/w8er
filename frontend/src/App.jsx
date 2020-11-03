@@ -114,7 +114,7 @@ const App = ({ ...props }) => {
               <Switch>
                 <Route exact path="/" component={LandingPage} />
                 <Route exact path="/register" component={RegisterPage} />
-                <Route exact path="/customer-faq" component={CustomerFAQPage} />
+                {/* <Route exact path="/customer-faq" component={CustomerFAQPage} /> */}
                 <Route exact path="/features" component={FeaturesPage} />
                 <Route
                   exact

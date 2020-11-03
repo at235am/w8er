@@ -107,7 +107,7 @@ const LandingPage = () => {
 
   return (
     <LPContainer>
-      <LPCard
+      {/* <LPCard
         height={height}
         css={css`
           margin-right: 2rem;
@@ -130,7 +130,7 @@ const LandingPage = () => {
             text="Show me how!"
           />
         </ButtonContainer>
-      </LPCard>
+      </LPCard> */}
 
       <LPCard height={height}>
         <DashboardDrawing />
@@ -167,7 +167,7 @@ const LandingPage = () => {
           />
         </ButtonContainer>
       </LPCard>
-      <FloorMapBackground />
+      {/* <FloorMapBackground /> */}
     </LPContainer>
   );
 };

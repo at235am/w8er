@@ -153,9 +153,7 @@ const ToolNode = memo(
         >
           {React.createElement(shape)}
         </Shape>
-        <Label onClick={() => console.log("help", guestData)} shapeType={type}>
-          {data.label}
-        </Label>
+        <Label shapeType={type}>{data.label}</Label>
       </ToolContainer>
     );
   }

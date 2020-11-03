@@ -194,7 +194,7 @@ const ThemedApp = () => {
   const lightTheme = useRecoilValue(themeState);
 
   return (
-    <ThemeProvider theme={!lightTheme ? themeLight : themeDark}>
+    <ThemeProvider theme={lightTheme ? themeLight : themeDark}>
       <GlobalReset />
       <HelmetProvider>
         <App />

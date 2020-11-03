@@ -259,7 +259,7 @@ const HiddenHack = styled.div`
 
 const opacityStyle = css`
   /* opacity: 0.5; */
-  background-color: red;
+  background-color: transparent;
 `;
 
 export {

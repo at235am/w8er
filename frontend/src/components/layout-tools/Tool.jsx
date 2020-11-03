@@ -8,6 +8,7 @@ import styled from "@emotion/styled";
 import { useDrag } from "react-dnd";
 import { ItemTypes } from "../../utils/draggables";
 import { Shape, opacityStyle } from "./ToolStyles";
+// import { Shape } from "./ToolStyles";
 
 import { DEFAULT_NODE_DATA } from "../../recoil/FloorMapItems";
 

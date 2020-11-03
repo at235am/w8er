@@ -141,7 +141,7 @@ const RegisterPage = () => {
           />
           <ButtonContainer>
             <RegisterButton
-              text="skip"
+              text="skip for demo"
               onClick={(e) => {
                 e.preventDefault();
                 setUser({ sdljt: "" });

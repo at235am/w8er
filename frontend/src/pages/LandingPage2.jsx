@@ -23,6 +23,7 @@ const LPContainer = styled.div`
   /* height: 100%; */
 
   color: ${({ theme }) => theme.colors.onBackground};
+  /* background-color: red; */
 
   display: flex;
   flex-direction: row;
@@ -40,6 +41,10 @@ const LPContainer = styled.div`
     display: block;
     width: auto;
   }
+`;
+
+const ContentContainer = styled.div`
+  width: 80%;
 `;
 
 const LPCard = styled(Card)`
@@ -78,6 +83,13 @@ const Text = styled.p`
   margin-bottom: 0.75rem;
   width: 100%;
 `;
+const LargeText = styled.p`
+  color: ${({ theme }) => theme.colors.onBackground};
+
+  font-size: 4rem;
+  margin-bottom: 0.75rem;
+  width: 100%;
+`;
 
 const Highlight = styled.span`
   color: ${({ theme }) => theme.colors.primary};
@@ -90,8 +102,6 @@ const ButtonContainer = styled.div`
   width: 100%;
 
   flex: 1;
-
-  margin-top: 1rem;
 
   display: flex;
   justify-content: flex-end;
@@ -109,67 +119,9 @@ const LandingPage = () => {
 
   return (
     <LPContainer>
-      {/* <LPCard
-        height={height}
-        css={css`
-          margin-right: 2rem;
-        `}
-      >
-        <QueueDrawing />
-        <Title>Waitlist or Reservation</Title>
-        <Text>
-          Are you a <Highlight>customer</Highlight> trying to make a reservation
-          or get your place in line?
-        </Text>
-        <Text>We can show you how!</Text>
-        <ButtonContainer>
-          <LPButton
-            onClick={(e) => {
-              e.stopPropagation();
-
-              history.push("/customer-faq");
-            }}
-            text="Show me how!"
-          />
-        </ButtonContainer>
-      </LPCard> */}
-
-      <LPCard height={height}>
-        <DashboardDrawing />
-        <Title>Sign up for our services!</Title>
-        <Text>
-          Are you a <Highlight>restaurant professional</Highlight> looking to
-          improve wait times for your customers?
-        </Text>
-        <Text>
-          Use our services to manage your waitlists and reservations, allow your
-          customers to pick out their seats, and much more!
-        </Text>
-
-        <ButtonContainer>
-          <LPButton
-            text="See features"
-            css={css`
-              margin-right: 2rem;
-            `}
-            onClick={(e) => {
-              e.stopPropagation();
-
-              history.push("/features");
-            }}
-          />
-
-          <LPButton
-            text="Sign Up"
-            onClick={(e) => {
-              e.stopPropagation();
-
-              history.push("/register");
-            }}
-          />
-        </ButtonContainer>
-      </LPCard>
-      {/* <FloorMapBackground /> */}
+      <ContentContainer>
+        <LargeText>A customer management solution with no rivals.</LargeText>
+      </ContentContainer>
     </LPContainer>
   );
 };

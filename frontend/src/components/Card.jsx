@@ -11,7 +11,7 @@ const CardContainer = styled.div`
   padding: 2rem;
 
   width: 30rem;
-  height: 40rem;
+  /* height: 40rem; */
 
   border-radius: 5px;
   border: 1px solid ${({ theme }) => theme.colors.outline};

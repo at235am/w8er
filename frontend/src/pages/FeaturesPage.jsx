@@ -13,7 +13,9 @@ import editFloorMap from "../assets/gif-previews/edit-floor-map.gif";
 import addToWaitlist from "../assets/gif-previews/add-to-waitlist.gif";
 import assignSeats from "../assets/gif-previews/assign-seats.gif";
 import moveSubList from "../assets/gif-previews/move-sub-lists.gif";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { userState } from "../recoil/UserState";
 
 const FeaturesContainer = styled.div`
   display: flex;
@@ -74,7 +76,14 @@ const HighlightLink = styled(Link)`
   color: ${({ theme }) => theme.colors.primary};
 `;
 
+const HighlightLink2 = styled.a`
+  font-weight: bold;
+
+  color: ${({ theme }) => theme.colors.primary};
+`;
+
 const FeaturesPage = () => {
+  const [user, setUser] = useRecoilState(userState);
   return (
     <FeaturesContainer>
       <WidthEqual>
@@ -83,15 +92,25 @@ const FeaturesPage = () => {
           <FeatureDescription>
             These are just some of our features with much more on the way!
             Please play around with the app to discover more. Keep in mind that
-            at this time, nothing you input on our site will be saved. This is
-            purely a frontend UI for you to test and critique!
+            at this time, nothing you input on our site will be saved.
           </FeatureDescription>
 
           <FeatureDescription>
-            To test out our features, use our fake sign up form here:{" "}
-            <HighlightLink to="/register">
-              manage your restaurant!
-            </HighlightLink>
+            To test out our features, go through our sign up process here:{" "}
+            <HighlightLink to="/register">register for w8r!</HighlightLink>
+          </FeatureDescription>
+
+          <FeatureDescription>
+            You can skip the sign up process here:{" "}
+            <HighlightLink2
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                setUser("sldjf");
+              }}
+            >
+              let me play with your webapp!
+            </HighlightLink2>
           </FeatureDescription>
         </FeatureWrapper>
         <FeatureWrapper>

@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
-import { DndProvider } from "react-dnd";
+// import { DndProvider } from "react-dnd";
+// import { HTML5Backend } from "react-dnd-html5-backend";
+
+import { DndProvider } from "react-dnd-multi-backend";
+// import HTML5toTouch from "react-dnd-multi-backend/dist/esm/HTML5toTouch";
+
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { TouchBackend } from "react-dnd-touch-backend";
+import MultiBackend, { TouchTransition } from "react-dnd-multi-backend";
+
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 import { ReactFlowProvider } from "react-flow-renderer";
 
@@ -37,6 +45,19 @@ import LandingPage from "./pages/LandingPage";
 // state management:
 import { useRecoilValue } from "recoil";
 import { userState } from "./recoil/UserState";
+
+const HTML5toTouch = {
+  backends: [
+    {
+      backend: HTML5Backend,
+    },
+    {
+      backend: TouchBackend, // Note that you can call your backends with options
+      preview: true,
+      transition: TouchTransition,
+    },
+  ],
+};
 
 const AppContainer = styled.section`
   background-color: ${(props) => props.theme.colors.background};
@@ -81,7 +102,9 @@ const App = ({ ...props }) => {
   }, [theme]);
 
   return (
-    <DndProvider backend={HTML5Backend}>
+    // <DndProvider backend={HTML5Backend}>
+    <DndProvider options={HTML5toTouch}>
+      {/* <DndProvider backend={MultiBackend} options={HTML5toTouch}> */}
       <ReactFlowProvider>
         <AppContainer>
           <Helmet>

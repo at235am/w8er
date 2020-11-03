@@ -82,10 +82,16 @@ const margin = css`
   margin: 1rem;
 `;
 
+const DirectionsText = styled.p`
+  margin-top: 0.5rem;
+  font-style: italic;
+`;
+
 const FloorMapTools = () => {
   return (
     <FMTContainer>
       <DrawerHeader headerTitle="Floor Map Tools" />
+      <DirectionsText>TIP: drag a table to the floor map</DirectionsText>
 
       <FMTContent className="floor-map-tools-content">
         <Tool

@@ -11,6 +11,7 @@ import FormInput from "./inputs/FormInput";
 import Button from "./buttons/Button";
 import SelectSlider from "./inputs/SelectSlider";
 import shortid from "shortid";
+import Input from "./inputs/Input";
 
 const ONE_MINUTE_MS = 60000;
 const RESERVE_OFFSET = 45 * ONE_MINUTE_MS;
@@ -42,7 +43,9 @@ const AddGuestButton = styled(Button)`
     }
   }
 `;
-
+const SpacedInput = styled(Input)`
+  margin-bottom: 1rem;
+`;
 const INITIAL_GUEST = {
   name: "", // easy (completed)
   party: "", // hard (completed)
@@ -57,20 +60,23 @@ const INITIAL_GUEST = {
 };
 
 const PARTY_ARRAY = [...Array(50).keys()];
-const TABLE_ARRAY = (() => {
-  const array = [];
 
-  for (let i = 0; i < 25; i++) {
-    const randomLetter = String.fromCharCode(
-      Math.floor(Math.random() * (97 - 122) + 122)
-    ).toUpperCase();
+// const TABLE_ARRAY = (() => {
+//   const array = [];
 
-    const randomNum = Math.floor(Math.random() * (0 - 9) + 9);
-    array.push(`${randomLetter}${randomNum}`);
-  }
+//   for (let i = 0; i < 25; i++) {
+//     const randomLetter = String.fromCharCode(
+//       Math.floor(Math.random() * (97 - 122) + 122)
+//     ).toUpperCase();
 
-  return array;
-})();
+//     const randomNum = Math.floor(Math.random() * (0 - 9) + 9);
+//     array.push(`${randomLetter}${randomNum}`);
+//   }
+
+//   return array;
+// })();
+
+const TABLE_ARRAY = ["A", "B", "C", "D", "E", "F", "G", "B2", "ALT", "F4"];
 
 const AddGuest = React.forwardRef(({ handleChange, ...props }, ref) => {
   const [guest, setGuest] = useState(INITIAL_GUEST);
@@ -101,16 +107,16 @@ const AddGuest = React.forwardRef(({ handleChange, ...props }, ref) => {
       }}
       onClick={() => {}}
     >
-      <FormInput
+      <SpacedInput
         required
         type="text"
         htmlFor="name"
         label="name"
         value={guest.name}
-        handleChange={(e) => {
+        onChange={(e) => {
           setGuest({ ...guest, name: e.target.value });
         }}
-        css={spacing}
+        // css={spacing}
       />
 
       <SelectSlider
@@ -123,41 +129,58 @@ const AddGuest = React.forwardRef(({ handleChange, ...props }, ref) => {
         css={spacing}
       />
 
-      <FormInput
+      <SpacedInput
         required
         type="tel"
         htmlFor="phone number"
         label="phone number"
         value={guest.phone}
-        handleChange={(e) => {
-          setGuest({ ...guest, phone: e.target.value });
+        onChange={(e) => {
+          const newValue = e.target.value || "";
+          const newChar = newValue[newValue.length - 1];
+
+          let numOfDigits = 0;
+
+          for (let i = 0; i < newValue.length; i++) {
+            if (/\d/.test(newValue.charAt(i))) numOfDigits++;
+          }
+
+          if (
+            (/\d/.test(newChar) ||
+              newValue === "" ||
+              newChar === "-" ||
+              newChar === " ") &&
+            numOfDigits <= 10
+          ) {
+            setGuest({ ...guest, phone: newValue });
+          }
         }}
         // pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
         additionalInfo="(ex: 123-456-7890)"
-        css={spacing}
+        // css={spacing}
       />
 
-      <FormInput
+      <SpacedInput
         type="text"
         htmlFor="notes"
         label="notes"
         value={guest.notes}
-        handleChange={(e) => {
+        onChange={(e) => {
           setGuest({ ...guest, notes: e.target.value });
         }}
-        css={spacing}
+        // css={spacing}
         additionalInfo="(optional)"
       />
 
-      <FormInput
+      <SpacedInput
         type="datetime-local"
         htmlFor="reservation time"
         label="reservation"
         value={guest.reserveTime}
-        handleChange={(e) => {
+        onChange={(e) => {
           setGuest({ ...guest, reserveTime: e.target.value });
         }}
-        css={spacing}
+        // css={spacing}
         additionalInfo="(ignore if waitlist)"
       />
 
@@ -169,7 +192,7 @@ const AddGuest = React.forwardRef(({ handleChange, ...props }, ref) => {
           handleChange={(val) => {
             setGuest({ ...guest, table: val });
           }}
-          // css={spacing}
+          css={spacing}
         />
       )}
 

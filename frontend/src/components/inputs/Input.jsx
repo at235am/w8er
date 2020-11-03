@@ -134,6 +134,12 @@ const VisibilityContainer = styled.div`
   }
 `;
 
+const Required = styled.span`
+  color: ${({ theme }) => theme.colors.error};
+  font-weight: bold;
+  font-size: inherit;
+`;
+
 const Input = React.forwardRef(
   ({ className, error, label, htmlFor, type, ...props }, ref) => {
     const [focused, setFocused] = useState(false);
@@ -155,9 +161,11 @@ const Input = React.forwardRef(
             value={inputRef.current.value}
           >
             {label}
+            {props.required && <Required>*</Required>}
           </Label>
         )}
         <ErrorMsg>{error}</ErrorMsg>
+
         <InputField
           {...props}
           type={determineInputType(type)}

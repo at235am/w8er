@@ -16,6 +16,7 @@ import { useRecoilState } from "recoil";
 import { themeState } from "../recoil/ThemeState";
 import { sidebarState } from "../recoil/SidebarState";
 import { sidebarItem } from "../recoil/SidebarItem";
+import { useAuth } from "../contexts/AuthContext";
 
 // custom components:
 import Button from "./buttons/Button";
@@ -316,6 +317,7 @@ const Sidebar = ({ children, ...props }) => {
   const [itemSelected, setItemSelected] = useRecoilState(sidebarItem);
 
   const [user, setUser] = useRecoilState(userState);
+  const { logout } = useAuth();
   const theme = useTheme();
 
   const history = useHistory();
@@ -441,9 +443,7 @@ const Sidebar = ({ children, ...props }) => {
           showText={sidenavOpen}
           text="logout"
           icon={IoMdLogOut}
-          onClick={() => {
-            setUser(null);
-          }}
+          onClick={logout}
         />
       </SidebarNav>
       <SidebarContainer

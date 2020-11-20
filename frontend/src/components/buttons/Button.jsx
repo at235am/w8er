@@ -4,6 +4,9 @@ import React from "react";
 import { css, jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 
+// custom components:
+import Spinner from "../Spinner";
+
 const btnSize = "2.5rem";
 
 const textIconSeparator = (props) => css`
@@ -27,6 +30,7 @@ const regularBtn = css`
 `;
 
 const ButtonContainer = styled.button`
+  position: relative;
   /* padding: 0 0.75rem; */
   height: ${btnSize};
   /* border-radius: 4px; */
@@ -36,6 +40,7 @@ const ButtonContainer = styled.button`
   /* flex-direction: column; */
   flex-direction: ${({ reverse }) => (reverse ? "row-reverse" : "row")};
   justify-content: center;
+  align-items: center;
 
   .btn-text {
     height: 100%;
@@ -71,13 +76,27 @@ const ButtonContainer = styled.button`
     }
   }
 
+  .btn-spinner {
+    position: absolute;
+    right: 0;
+    margin-right: 0.75rem;
+  }
+
   &:hover {
     background-color: ${(props) => props.theme.colors.secondary};
+  }
+
+  :disabled {
+    cursor: not-allowed;
+    background-color: ${({ theme }) => theme.colors.background};
+    .btn-text {
+      color: ${({ theme }) => theme.colors.onBackground};
+    }
   }
 `;
 
 const Button = React.forwardRef(
-  ({ type, text, icon, reverse, ...props }, ref) => {
+  ({ type, text, icon, reverse, spinner, ...props }, ref) => {
     return (
       <ButtonContainer
         ref={ref}
@@ -102,6 +121,12 @@ const Button = React.forwardRef(
         {icon ? (
           <span className="btn-icon">{React.createElement(icon)}</span>
         ) : null}
+        {spinner && (
+          <span className="btn-spinner">
+            {" "}
+            <Spinner />
+          </span>
+        )}
       </ButtonContainer>
     );
   }

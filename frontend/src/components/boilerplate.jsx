@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 /** @jsx jsx */
 import { css, jsx } from "@emotion/core";
 import styled from "@emotion/styled";
+import { rgba } from "emotion-rgba";
 
 const boilerplate = () => {
   return <div></div>;

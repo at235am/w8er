@@ -26,14 +26,14 @@ const INITIAL_ACC_INFO = {
   },
 };
 
-const RegisterContainer = styled.div`
+const LoginContainer = styled.div`
   /* background-color: red; */
   display: flex;
   justify-content: center;
   align-items: center;
 `;
 
-const RegisterCard = styled(Card)`
+const LoginCard = styled(Card)`
   @media (max-width: 500px) {
     width: 90%;
     padding: 1rem;
@@ -65,7 +65,7 @@ const ButtonContainer = styled.div`
   align-items: flex-end;
 `;
 
-const RegisterButton = styled(Button)`
+const SubmitButton = styled(Button)`
   width: 100%;
   min-height: 3.5rem;
   height: 3.5rem;
@@ -73,16 +73,13 @@ const RegisterButton = styled(Button)`
   margin-top: 1rem;
 `;
 
-const RegisterPage = () => {
+const LoginPage = () => {
   // const [user, setUser] = useRecoilState(userState);
   const { register, handleSubmit, errors, watch } = useForm();
   const [authError, setAuthError] = useState("");
   const [loading, setLoading] = useState(false);
-  const auth = useAuth();
 
-  const resNameReqs = {
-    required: { value: true, message: "name required" },
-  };
+  const auth = useAuth();
 
   const emailReqs = {
     required: { value: true, message: "email required" },
@@ -94,40 +91,27 @@ const RegisterPage = () => {
     minLength: { value: 8, message: "8 or more characters" },
   };
 
-  const confirmPwReqs = {
-    validate: (value) =>
-      value === watch("password") || "passwords do not match",
-  };
-
   const onSubmit = (data) => {
     setAuthError("");
     setLoading(true);
     auth
-      .register(data.email, data.password)
+      .login(data.email, data.password)
       .then((res) => {
         setLoading(false);
       })
       .catch((e) => {
-        setAuthError("Email already in use");
+        console.log(e);
+        setAuthError("Invalid email or password");
         setLoading(false);
       });
   };
 
   return (
-    <RegisterContainer>
-      <RegisterCard>
+    <LoginContainer>
+      <LoginCard>
         {/* noValidate disables the html5 validation and its ugly messages */}
 
         <FormContainer onSubmit={handleSubmit(onSubmit)} noValidate>
-          <SpacedInput
-            type="text"
-            htmlFor="restaurant"
-            label="restaurant name"
-            name="restaurant"
-            ref={register(resNameReqs)}
-            error={errors.restaurant && errors.restaurant.message}
-          />
-
           <SpacedInput
             type="email"
             htmlFor="email"
@@ -146,35 +130,19 @@ const RegisterPage = () => {
             error={errors.password && errors.password.message}
           />
 
-          <SpacedInput
-            type="password"
-            htmlFor="confirmPassword"
-            label="confirm password"
-            name="confirmPassword"
-            ref={register(confirmPwReqs)}
-            error={errors.confirmPassword && errors.confirmPassword.message}
-            onClick={() => console.log(errors)}
-          />
           <ButtonContainer>
-            {/* <RegisterButton
-              text="skip for demo"
-              onClick={(e) => {
-                e.preventDefault();
-                setUser({ sdljt: "" });
-              }}
-            /> */}
             {authError && <ErrorMessage text={authError} />}
-            <RegisterButton
+            <SubmitButton
               type="submit"
-              text="register"
+              text="login"
               disabled={loading}
               spinner={loading}
             />
           </ButtonContainer>
         </FormContainer>
-      </RegisterCard>
-    </RegisterContainer>
+      </LoginCard>
+    </LoginContainer>
   );
 };
 
-export default RegisterPage;
+export default LoginPage;

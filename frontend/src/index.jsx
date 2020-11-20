@@ -4,13 +4,16 @@ import { RecoilRoot } from "recoil";
 
 import "./index.css";
 import ThemedApp from "./Theme";
+import { AuthProvider } from "./contexts/AuthContext";
 // import * as serviceWorker from "./serviceWorker";
 
 // ReactDOM.render(<p>lsdjflsdkjf</p>, document.getElementById("root"));
 ReactDOM.render(
   <React.StrictMode>
     <RecoilRoot>
-      <ThemedApp />
+      <AuthProvider>
+        <ThemedApp />
+      </AuthProvider>
     </RecoilRoot>
   </React.StrictMode>,
   document.getElementById("root")

@@ -33,6 +33,7 @@ import Overlay from "./components/Overlay";
 import SeatingLayout from "./pages/SeatingLayout";
 import Settings from "./pages/Settings";
 import RegisterPage from "./pages/RegisterPage";
+import LoginPage from "./pages/LoginPage";
 import CustomerFAQPage from "./pages/CustomerFAQPage";
 import FeaturesPage from "./pages/FeaturesPage";
 import WaitListReservePage from "./pages/WaitlistReservePage";
@@ -45,6 +46,8 @@ import LandingPage from "./pages/LandingPage";
 // state management:
 import { useRecoilValue } from "recoil";
 import { userState } from "./recoil/UserState";
+import { useAuth } from "./contexts/AuthContext";
+import NavigationBar from "./components/NavigationBar";
 
 const HTML5toTouch = {
   backends: [
@@ -95,7 +98,7 @@ const FlexWrapper = styled.div`
 
 const App = ({ ...props }) => {
   const theme = useTheme();
-  const user = useRecoilValue(userState);
+  const { currentUser } = useAuth();
 
   useEffect(() => {
     // console.log("UE1");
@@ -112,7 +115,7 @@ const App = ({ ...props }) => {
           </Helmet>
 
           <BrowserRouter>
-            {user && (
+            {currentUser && (
               <FlexWrapper>
                 <Sidebar />
                 <Main>
@@ -133,21 +136,30 @@ const App = ({ ...props }) => {
               </FlexWrapper>
             )}
 
-            {!user && (
-              <Switch>
-                <Route exact path="/" component={LandingPage} />
-                <Route exact path="/register" component={RegisterPage} />
-                {/* <Route exact path="/customer-faq" component={CustomerFAQPage} /> */}
-                <Route exact path="/features" component={FeaturesPage} />
-                <Route
-                  exact
-                  path="/miles-steakhouse"
-                  component={WaitListReservePage}
-                />
-                <Route path="/">
-                  <Redirect to="/" />
-                </Route>
-              </Switch>
+            {!currentUser && (
+              <React.Fragment>
+                <NavigationBar />
+                <Switch>
+                  <Route exact path="/" component={LandingPage} />
+                  <Route exact path="/register" component={RegisterPage} />
+                  <Route exact path="/login" component={LoginPage} />
+                  <Route
+                    exact
+                    path="/customer-faq"
+                    component={CustomerFAQPage}
+                  />
+                  <Route exact path="/features" component={FeaturesPage} />
+                  <Route
+                    exact
+                    path="/miles-steakhouse"
+                    component={WaitListReservePage}
+                  />
+
+                  <Route path="/">
+                    <Redirect to="/" />
+                  </Route>
+                </Switch>
+              </React.Fragment>
             )}
           </BrowserRouter>
         </AppContainer>

@@ -158,7 +158,7 @@ const Overlay = () => {
   const [sbItem, setSbItem] = useRecoilState(sidebarItem);
 
   useEffect(() => {
-    console.log("polo");
+    // console.log("polo");
   });
 
   return (

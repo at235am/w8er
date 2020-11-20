@@ -35,10 +35,10 @@ const CardContainer = styled.div`
     /* border-right: 4px solid ${({ theme }) => theme.colors.primary}; */
   }
 
-  svg {
+  /* svg {
     width: 70%;
     height: 50%;
-  }
+  } */
 
   @media (max-width: 500px) {
     width: 90%;

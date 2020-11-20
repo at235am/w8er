@@ -161,7 +161,7 @@ const GlobalReset = () => {
         a:active {
           cursor: pointer;
           text-decoration: none;
-          color: ${theme.colors.primary};
+          /* color: ${theme.colors.primary}; */
         }
 
         ul,

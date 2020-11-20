@@ -128,7 +128,11 @@ const App = ({ ...props }) => {
                     />
                     <Route exact path="/settings" component={Settings} />
                     <Route path="/">
-                      <Redirect to="/floor-map" />
+                      {currentUser.restaurant ? (
+                        <Redirect to="/floor-map" />
+                      ) : (
+                        <Redirect to="/settings" />
+                      )}
                     </Route>
                   </Switch>
                 </Main>

@@ -14,4 +14,28 @@ const app = firebase.initializeApp({
 
 export const auth = app.auth();
 export const db = app.firestore();
+
+export const createRestaurantProfile = async (userAuth) => {
+  if (!userAuth) return;
+
+  const resRef = db.doc(`restaurants/${userAuth.uid}`);
+  const snapShot = await resRef.get();
+
+  if (!snapShot.exists) {
+    try {
+      await resRef.set({
+        uid: userAuth.uid,
+        restaurantName: "",
+        address: "",
+        phoneNumber: "",
+        maxPartySize: 10,
+      });
+    } catch (e) {
+      console.log("error creating res", e);
+    }
+  }
+
+  return resRef;
+};
+
 export default app;

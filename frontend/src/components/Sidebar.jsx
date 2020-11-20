@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory, Link } from "react-router-dom";
+import { useHistory, Link, useLocation } from "react-router-dom";
 // import { ReactFlowProvider } from "react-flow-renderer";
 
 import ReactTooltip from "react-tooltip";
@@ -39,6 +39,7 @@ import { BsLayoutTextSidebar } from "react-icons/bs";
 
 import "./tooltip.css";
 import { userState } from "../recoil/UserState";
+import { sidebarNav } from "../recoil/SidebarNav";
 
 const sbClosed = css`
   width: 0;
@@ -267,6 +268,7 @@ const Slider = styled.div`
   width: 3px;
   right: 0;
   position: absolute;
+  z-index: 30;
 
   transform: translateY(
     ${({ itemSelected }) => `${4 * (itemSelected + 1)}rem`}
@@ -313,7 +315,7 @@ const navItems = [
 const Sidebar = ({ children, ...props }) => {
   // const [sidebarOpen, setSidebarOpen] = useState(true);
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarState);
-  const [sidenavOpen, setSidenavOpen] = useState(true);
+  const [sidenavOpen, setSidenavOpen] = useRecoilState(sidebarNav);
   const [itemSelected, setItemSelected] = useRecoilState(sidebarItem);
 
   const [user, setUser] = useRecoilState(userState);
@@ -321,6 +323,7 @@ const Sidebar = ({ children, ...props }) => {
   const theme = useTheme();
 
   const history = useHistory();
+  const location = useLocation();
 
   const [themeToggle, toggleTheme] = useRecoilState(themeState);
   // const [mQuery, setMQuery] = useState({
@@ -333,6 +336,24 @@ const Sidebar = ({ children, ...props }) => {
 
   //   return () => mediaQuery.removeListener(setMQuery);
   // }, [sidebarOpen]);
+
+  useEffect(() => {
+    switch (location.pathname) {
+      case "/floor-map":
+        setItemSelected(0);
+        break;
+      case "/floor-map/edit":
+        setItemSelected(1);
+        break;
+      case "/settings":
+        setItemSelected(2);
+        setSidebarOpen(false);
+        break;
+      default:
+        setItemSelected(0);
+        break;
+    }
+  }, [location]);
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);

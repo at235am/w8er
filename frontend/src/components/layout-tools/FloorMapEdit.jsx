@@ -35,6 +35,8 @@ import Spinner from "../Spinner";
 import { ChangeDetectedState } from "../../recoil/ChangeDetectedState";
 import { SaveButtonState } from "../../recoil/SaveButtonState";
 
+import { FaCheck } from "react-icons/fa";
+
 const shortid = require("shortid");
 
 const FloorMapContainer = styled.div`
@@ -55,12 +57,22 @@ const DropTarget = styled.div`
 `;
 
 const SaveButton = styled(Button)`
-  background-color: ${({ theme }) => theme.colors.correct};
+  background-color: ${({ theme }) => theme.colors.error};
   /* position: absolute; */
   /* z-index: 200; */
   /* bottom: 0; */
   /* right: 0; */
+  .btn-text {
+    /* color: ${({ theme }) => theme.colors.background}; */
+  }
   margin: 0 1rem;
+
+  &:hover {
+    background-color: ${({ theme }) => theme.colors.correct};
+    .btn-text {
+      color: ${({ theme }) => theme.colors.background};
+    }
+  }
 `;
 
 const BottomOverlay = styled.div`
@@ -79,6 +91,20 @@ const BottomOverlay = styled.div`
 const NotificationText = styled.p`
   color: white;
   font-weight: bold;
+
+  svg {
+    margin-left: 1rem;
+    width: 1.25rem;
+    height: 1.25rem;
+    path {
+      fill: ${({ theme }) => theme.colors.onBackground};
+    }
+  }
+
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
 `;
 
 const nodeTypes = {
@@ -337,7 +363,10 @@ const FloorMapEdit = () => {
               )}
             </React.Fragment>
           ) : (
-            <NotificationText>Changes up to date</NotificationText>
+            <NotificationText>
+              Changes up to date
+              <FaCheck />
+            </NotificationText>
           )}
         </BottomOverlay>
       </Portal>

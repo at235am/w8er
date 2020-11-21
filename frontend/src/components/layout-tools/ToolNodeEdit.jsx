@@ -39,8 +39,6 @@ import {
 
 // Node states and defaults:
 import { FloorMapItems, DEFAULT_NODE_DATA } from "../../recoil/FloorMapItems";
-import { db } from "../../firebase";
-import { useAuth } from "../../contexts/AuthContext";
 
 const SIZE_LIMIT_MIN = 20;
 const SIZE_LIMIT_MAX = 200;
@@ -63,11 +61,7 @@ const ToolNode = memo(
     const [size, setSize] = useState(data.size);
     const [label, setLabel] = useState(data.label);
     const [items, setItems] = useRecoilState(FloorMapItems);
-    const { currentUser } = useAuth();
-    const itemRef = db
-      .collection("restaurants")
-      .doc(currentUser.uid)
-      .collection("layout");
+    // const { currentUser } = useAuth();
 
     // partial data update
     const updateNodeData = (dataUpdate) => {
@@ -89,11 +83,7 @@ const ToolNode = memo(
       }
     };
 
-    useEffect(() => {
-      console.log("postion change", type, id);
-    }, [position]);
-
-    useEffect(() => {}, [rotateAngle, size, label, items]);
+    // useEffect(() => {}, [rotateAngle, size, label, items]);
 
     // const updateNodeData = () => {
     //   const deleteIndex = items.findIndex((item, i) => item.id === id);
@@ -163,7 +153,7 @@ const ToolNode = memo(
       }
     };
 
-    const deleteItem = async () => {
+    const deleteItem = () => {
       // const deleteIndex = items.findIndex((item, i) => item.id === id);
       // if (deleteIndex > -1) {
       //   const updatedItems = [

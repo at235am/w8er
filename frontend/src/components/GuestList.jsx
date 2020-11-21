@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useAuth } from "../contexts/AuthContext";
 
 // styling:
 /** @jsx jsx */
@@ -16,6 +17,7 @@ import DetailBit from "./DetailBit";
 import AddGuest from "./AddGuest";
 import DrawerHeader from "./DrawerHeader";
 import GuestItem from "./GuestItem";
+import { db } from "../firebase";
 
 // icon:
 import { IoMdAddCircle } from "react-icons/io";
@@ -306,23 +308,80 @@ const AddText = styled.p`
 `;
 
 const GuestList = () => {
-  const [guestList, setGuestList] = useState(GUESTLIST);
+  const [guestList, setGuestList] = useState([]);
   // const [guestList, setGuestList] = useState([]);
   const [seatedOpen, setSeatedOpen] = useState(true);
   const [mustServeOpen, setMustServeOpen] = useState(true);
   const [finishedOpen, setFinishedOpen] = useState(true);
   const [currentTime, setCurrentTime] = useState(false);
+  const [loading, setLoading] = useState(false);
   const sidebarOpen = useRecoilValue(sidebarState);
+  const { currentUser } = useAuth();
 
   useEffect(() => {
-    let timer = null;
+    setLoading(true);
 
+    const unSubscribeGL = db
+      .collection("restaurants")
+      .doc(currentUser.uid)
+      .collection("guestlist")
+      .onSnapshot((qs) => {
+        // console.log("id", qs.id);
+        // console.log("qs", qs.data());
+        const items = [];
+        // console.log("hey qs here", qs);
+        qs.forEach((doc) => {
+          // console.log(
+          //   "each",
+          //   doc.data().waitTime.toDate(),
+          //   new Date(doc.data().waitTime)
+          // );
+
+          const data = doc.data();
+
+          let { departureTime, reserveTime, seatedTime, waitTime } = data;
+          if (departureTime.toDate) departureTime = departureTime.toDate();
+          if (reserveTime.toDate) reserveTime = reserveTime.toDate();
+          if (seatedTime.toDate) seatedTime = seatedTime.toDate();
+          if (waitTime.toDate) waitTime = waitTime.toDate();
+
+          const newItem = {
+            ...data,
+            departureTime,
+            reserveTime,
+            seatedTime,
+            waitTime,
+          };
+
+          // console.log(doc.data());
+          items.push(newItem);
+        });
+
+        // console.log("items", items);
+
+        setGuestList(items);
+
+        // if (qs.data) {
+        //   console.log("qs", qs);
+        //   setGuestList([...qs.data()]);
+        // } else {
+        //   console.log("qs not");
+
+        //   setGuestList([]);
+        // }
+
+        // setCurrentInfo({ ...currentInfo, ...qs.data(), uid: currentUser.uid });
+        setLoading(false);
+      });
+
+    let timer = null;
     timer = setInterval(() => {
       setCurrentTime(new Date());
     }, 60000);
 
     return () => {
       clearInterval(timer);
+      unSubscribeGL();
     };
   }, []);
 

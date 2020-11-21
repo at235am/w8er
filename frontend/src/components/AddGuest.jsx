@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { db } from "../firebase";
 
 // styling:
 /** @jsx jsx */
@@ -12,6 +13,7 @@ import Button from "./buttons/Button";
 import SelectSlider from "./inputs/SelectSlider";
 import shortid from "shortid";
 import Input from "./inputs/Input";
+import { useAuth } from "../contexts/AuthContext";
 
 const ONE_MINUTE_MS = 60000;
 const RESERVE_OFFSET = 45 * ONE_MINUTE_MS;
@@ -80,31 +82,73 @@ const TABLE_ARRAY = ["A", "B", "C", "D", "E", "F", "G", "B2", "ALT", "F4"];
 
 const AddGuest = React.forwardRef(({ handleChange, ...props }, ref) => {
   const [guest, setGuest] = useState(INITIAL_GUEST);
+  const [loading, setLoading] = useState(false);
+  const { currentUser } = useAuth();
+
+  const resRef = db
+    .collection("restaurants")
+    .doc(currentUser.uid)
+    .collection("guestlist");
+
+  const updateGuestList = async (e) => {
+    e.preventDefault();
+
+    // const snapShot = await resRef.get();
+
+    const newGuest = {
+      ...guest,
+      // id: shortid.generate(),
+      id: resRef.doc().id,
+      waitTime: guest.reserveTime
+        ? new Date(new Date(guest.reserveTime).getTime() - RESERVE_OFFSET)
+        : new Date(),
+      reserveTime: guest.reserveTime ? new Date(guest.reserveTime) : "",
+    };
+
+    // if (!snapShot.exists) {
+    // console.log("not existing");
+
+    // handleChange(newGuest);
+    // console.log("new customer", newGuest);
+    try {
+      setLoading(true);
+      // const
+      await resRef.doc(newGuest.id).set(newGuest);
+      setLoading(false);
+    } catch (e) {
+      setLoading(false);
+      console.log("error creating res", e);
+    }
+    setGuest(INITIAL_GUEST);
+    if (props.toggleDrawer) props.toggleDrawer();
+    // }
+  };
 
   return (
     <AddGuestContainer
       {...props}
       ref={ref}
       className="add-guest-container"
-      onSubmit={(e) => {
-        e.preventDefault();
+      // onSubmit={(e) => {
+      //   e.preventDefault();
 
-        const newGuest = {
-          ...guest,
-          id: shortid.generate(),
-          waitTime: guest.reserveTime
-            ? new Date(new Date(guest.reserveTime).getTime() - RESERVE_OFFSET)
-            : new Date(),
-          reserveTime: guest.reserveTime ? new Date(guest.reserveTime) : "",
-        };
+      //   const newGuest = {
+      //     ...guest,
+      //     id: shortid.generate(),
+      //     waitTime: guest.reserveTime
+      //       ? new Date(new Date(guest.reserveTime).getTime() - RESERVE_OFFSET)
+      //       : new Date(),
+      //     reserveTime: guest.reserveTime ? new Date(guest.reserveTime) : "",
+      //   };
 
-        handleChange(newGuest);
+      //   handleChange(newGuest);
 
-        console.log("guest----", newGuest);
+      //   console.log("guest----", newGuest);
 
-        setGuest(INITIAL_GUEST);
-        if (props.toggleDrawer) props.toggleDrawer();
-      }}
+      //   setGuest(INITIAL_GUEST);
+      //   if (props.toggleDrawer) props.toggleDrawer();
+      // }}
+      onSubmit={updateGuestList}
       onClick={() => {}}
     >
       <SpacedInput

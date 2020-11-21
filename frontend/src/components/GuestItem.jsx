@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import { useDrag, DragPreviewImage } from "react-dnd";
 import { ItemTypes } from "../utils/draggables";
+import { db } from "../firebase";
 
 // styling:
 /** @jsx jsx */
@@ -17,6 +18,7 @@ import DetailBit from "./DetailBit";
 // icons:
 import { ImCheckmark } from "react-icons/im";
 import { useTheme } from "emotion-theming";
+import { useAuth } from "../contexts/AuthContext";
 
 const ItemWrapper = styled.li`
   width: 100%;
@@ -222,10 +224,33 @@ const GuestItem = ({
       opacity: monitor.isDragging() ? 0.1 : 1,
     }),
   });
+  const { currentUser } = useAuth();
+  const guestlistRef = db
+    .collection("restaurants")
+    .doc(currentUser.uid)
+    .collection("guestlist");
+
+  const updateGuestItem = async (data) => {
+    const { id } = guestInfo;
+    try {
+      await guestlistRef.doc(id).update(data);
+    } catch (e) {
+      console.log("guest item error", e);
+    }
+  };
 
   const getCurrentTimeDelta = (time) => {
+    // if (time.toDate) {
+    //   time = time.toDate();
+    // }
+
+    // time.toDate();
     const ONE_MINUTE = 60;
     const ONE_HOUR = 3600;
+    // console.log("time", time);
+
+    // const hello = time.toDate();
+    // console.log("hello", hello);
 
     const currenttime = currentTime ? currentTime : new Date();
     const timeDelta = Math.floor(
@@ -249,6 +274,10 @@ const GuestItem = ({
   };
 
   const getReservationStatus = (time) => {
+    // if (time.toDate) {
+    //   time = time.toDate();
+    // }
+
     const ONE_MINUTE = 60;
     const ONE_HOUR = 3600;
 
@@ -295,6 +324,9 @@ const GuestItem = ({
   }
 
   const formatReserveTime = (datetime) => {
+    // if (datetime.toDate) {
+    //   datetime = datetime.toDate();
+    // }
     const date =
       datetime.getMonth() +
       1 +
@@ -343,7 +375,8 @@ const GuestItem = ({
             onClick={(e) => {
               e.stopPropagation();
               setItemExpand(!itemExpand);
-              handleChange({ ...guestInfo, seatedTime: new Date() });
+              // handleChange({ ...guestInfo, seatedTime: new Date() });
+              updateGuestItem({ ...guestInfo, seatedTime: new Date() });
             }}
           />
         )}
@@ -365,7 +398,8 @@ const GuestItem = ({
             onClick={(e) => {
               e.stopPropagation();
               setItemExpand(!itemExpand);
-              handleChange({ ...guestInfo, departureTime: new Date() });
+              // handleChange({ ...guestInfo, departureTime: new Date() });
+              updateGuestItem({ ...guestInfo, departureTime: new Date() });
             }}
           />
         )}

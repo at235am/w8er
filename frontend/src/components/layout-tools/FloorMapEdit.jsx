@@ -207,10 +207,15 @@ const FloorMapEdit = () => {
         changedItems.forEach((item) => {
           let newItem = { ...item };
           delete newItem.data.changed;
+          delete newItem.data.delete;
           newItem = { ...newItem, position: newItem.__rf.position };
           delete newItem.__rf;
           // console.log("each", newItem);
-          batch.update(layoutRef.doc(item.id), newItem);
+          if (item.data.delete) {
+            batch.delete(layoutRef.doc(item.id), newItem);
+          } else {
+            batch.update(layoutRef.doc(item.id), newItem);
+          }
         });
 
         await batch.commit();
@@ -256,7 +261,7 @@ const FloorMapEdit = () => {
       setChangeDetected(true);
       nodesRef.current = nodes;
     }
-  }, [nodes]);
+  }, [nodes, items]);
 
   useEffect(() => {
     console.log("didDrop", didDrop, item);

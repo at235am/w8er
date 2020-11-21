@@ -19,6 +19,7 @@ import {
   DecreaseSize,
   HiddenHack,
   LabelInput,
+  Trash,
 } from "./ToolStyles";
 
 import { ReactComponent as CircleShape } from "../../assets/shapes/circle.svg";
@@ -30,10 +31,19 @@ import { ReactComponent as LshapeShape } from "../../assets/shapes/lshape.svg";
 
 // icons:
 import { BiRotateLeft, BiRotateRight } from "react-icons/bi";
-import { MdAddCircleOutline, MdRemoveCircleOutline } from "react-icons/md";
+import {
+  MdAddCircleOutline,
+  MdRemoveCircleOutline,
+  MdDeleteForever,
+} from "react-icons/md";
 
 // Node states and defaults:
 import { FloorMapItems, DEFAULT_NODE_DATA } from "../../recoil/FloorMapItems";
+import { db } from "../../firebase";
+import { useAuth } from "../../contexts/AuthContext";
+
+const SIZE_LIMIT_MIN = 20;
+const SIZE_LIMIT_MAX = 200;
 
 const ToolNode = memo(
   ({
@@ -53,6 +63,11 @@ const ToolNode = memo(
     const [size, setSize] = useState(data.size);
     const [label, setLabel] = useState(data.label);
     const [items, setItems] = useRecoilState(FloorMapItems);
+    const { currentUser } = useAuth();
+    const itemRef = db
+      .collection("restaurants")
+      .doc(currentUser.uid)
+      .collection("layout");
 
     // partial data update
     const updateNodeData = (dataUpdate) => {
@@ -126,21 +141,49 @@ const ToolNode = memo(
     const increaseSize = () => {
       const { height, width } = size;
       const newValue = { height: height + sizeUnit, width: width + sizeUnit };
-      setSize(newValue);
-      updateNodeData({ size: newValue });
+
+      if (
+        newValue.height <= SIZE_LIMIT_MAX &&
+        newValue.width <= SIZE_LIMIT_MAX
+      ) {
+        setSize(newValue);
+        updateNodeData({ size: newValue });
+      }
     };
 
     const decreaseSize = () => {
       const { height, width } = size;
       const newValue = { height: height - sizeUnit, width: width - sizeUnit };
-      setSize(newValue);
-      updateNodeData({ size: newValue });
+      if (
+        newValue.height >= SIZE_LIMIT_MIN &&
+        newValue.width >= SIZE_LIMIT_MIN
+      ) {
+        setSize(newValue);
+        updateNodeData({ size: newValue });
+      }
+    };
+
+    const deleteItem = async () => {
+      // const deleteIndex = items.findIndex((item, i) => item.id === id);
+      // if (deleteIndex > -1) {
+      //   const updatedItems = [
+      //     ...items.slice(0, deleteIndex),
+      //     ...items.slice(deleteIndex + 1, items.length),
+      //   ];
+      //   // setItems(updatedItems);
+
+      // }
+      // await itemRef.doc(id).delete();
+      setSize({ height: 0, width: 0 });
+
+      updateNodeData({ delete: true, size: { height: 0, width: 0 } });
     };
 
     const cwLongPressAction = useRepeatLongPress(rotateCW, 200);
     const ccwLongPressAction = useRepeatLongPress(rotateCCW, 200);
     const increaseSizePressActions = useRepeatLongPress(increaseSize, 200);
     const decreaseSizePressActions = useRepeatLongPress(decreaseSize, 200);
+    const deleteItemPressActions = useRepeatLongPress(deleteItem, 200);
 
     return (
       <ToolContainer {...props}>
@@ -176,6 +219,9 @@ const ToolNode = memo(
           <IncreaseSize {...increaseSizePressActions}>
             <MdAddCircleOutline />
           </IncreaseSize>
+          <Trash {...deleteItemPressActions}>
+            <MdDeleteForever />
+          </Trash>
         </HiddenHack>
       </ToolContainer>
     );

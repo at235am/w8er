@@ -230,6 +230,11 @@ const IncreaseSize = styled.button`
   left: 9rem;
 `;
 
+const Trash = styled.button`
+  ${({ theme }) => overlayControls(theme)}
+  left: 9rem;
+`;
+
 /* 
   this hidden hack was made because using the prop "selected" to conditionally render
   the four controls (+, -, cw, ccw) made it so that the controls did not fire onTouchStart
@@ -270,6 +275,7 @@ export {
   RotateCCWControl,
   IncreaseSize,
   DecreaseSize,
+  Trash,
   HiddenHack,
   LabelInput,
   Label,

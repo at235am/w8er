@@ -80,9 +80,9 @@ const RegisterPage = () => {
   const [loading, setLoading] = useState(false);
   const auth = useAuth();
 
-  const resNameReqs = {
-    required: { value: true, message: "name required" },
-  };
+  // const resNameReqs = {
+  //   required: { value: true, message: "name required" },
+  // };
 
   const emailReqs = {
     required: { value: true, message: "email required" },
@@ -119,14 +119,14 @@ const RegisterPage = () => {
         {/* noValidate disables the html5 validation and its ugly messages */}
 
         <FormContainer onSubmit={handleSubmit(onSubmit)} noValidate>
-          <SpacedInput
+          {/* <SpacedInput
             type="text"
             htmlFor="restaurant"
             label="restaurant name"
             name="restaurant"
             ref={register(resNameReqs)}
             error={errors.restaurant && errors.restaurant.message}
-          />
+          /> */}
 
           <SpacedInput
             type="email"

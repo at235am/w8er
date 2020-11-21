@@ -29,6 +29,8 @@ export const createRestaurantProfile = async (userAuth) => {
         address: "",
         phoneNumber: "",
         maxPartySize: 10,
+        minMode: true,
+        theme: "dark",
       });
     } catch (e) {
       console.log("error creating res", e);

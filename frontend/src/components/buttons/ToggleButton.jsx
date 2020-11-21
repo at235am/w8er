@@ -65,7 +65,7 @@ const ToggleInput = ({
   label,
   ...props
 }) => {
-  const [toggled, setToggled] = useState(false);
+  // const [toggled, setToggled] = useState(false);
 
   return (
     <ToggleContainer
@@ -73,12 +73,12 @@ const ToggleInput = ({
       orientation={orientation}
       size={size}
       onClick={() => {
-        setToggled(!toggled);
+        // setToggled(value);
         onClick();
       }}
       aria-pressed={value}
     >
-      <ToggleButton type="button" toggled={toggled} />
+      <ToggleButton type="button" toggled={value} />
     </ToggleContainer>
   );
 };

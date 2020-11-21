@@ -12,6 +12,10 @@ import Button from "../components/buttons/Button";
 
 // icons:
 import { MdEdit, MdInfoOutline } from "react-icons/md";
+import { useRecoilState } from "recoil";
+import { themeState } from "../recoil/ThemeState";
+import { sidebarNav } from "../recoil/SidebarNav";
+import ToggleButton from "../components/buttons/ToggleButton";
 
 const SettingsContainer = styled.div`
   margin-top: ${({ theme }) => theme.dimensions.navSize};
@@ -87,6 +91,17 @@ const Header = styled.h2`
   }
 `;
 
+const FieldContainer = styled.div`
+  height: 3.5rem;
+  width: 100%;
+  background-color: ${({ theme }) => theme.colors.background};
+  margin-bottom: 1rem;
+  border-radius: 3px;
+  padding: 0 0.75rem;
+
+  display: flex;
+  align-items: center;
+`;
 const Divider = styled.div`
   height: 100%;
   width: 1px;
@@ -121,7 +136,8 @@ const CopyMessage = styled.div`
 
   border: 1px solid ${({ theme }) => theme.colors.primary};
   border-radius: 3px;
-  margin-top: 1rem;
+  /* margin-top: 1rem; */
+  margin-bottom: 1rem;
 `;
 
 const FirstSetUp = styled.div`
@@ -152,9 +168,30 @@ const FormContainer = styled.form`
   /* align-items: center; */
 `;
 
+const Label = styled.p`
+  text-transform: uppercase;
+  white-space: nowrap;
+  font-size: 0.9rem;
+  font-weight: bold;
+
+  margin-right: 1rem;
+`;
+
 const SpacedInput = styled(Input)`
   margin-bottom: 1rem;
   /* width: 25rem; */
+`;
+
+const ButtonInput = styled(Input)`
+  margin-bottom: 1rem;
+  background-color: ${({ theme }) => theme.colors.primary};
+  cursor: copy;
+
+  label,
+  input {
+    color: white;
+    cursor: copy;
+  }
 `;
 
 const SubmitButton = styled(Button)`
@@ -162,7 +199,7 @@ const SubmitButton = styled(Button)`
   min-height: 3.5rem;
   height: 3.5rem;
   max-height: 3.5rem;
-  margin-top: 1rem;
+  /* margin-top: 1rem; */
 `;
 
 const LinkCopyButton = styled(Button)`
@@ -177,12 +214,15 @@ const INITIAL_RES = {
   address: "",
   uid: "",
   maxPartySize: "",
+  minMode: "",
+  theme: "",
 };
 
 const Settings = () => {
+  const [theme, setTheme] = useRecoilState(themeState);
+  const [minMode, setMinMode] = useRecoilState(sidebarNav);
   const [loading, setLoading] = useState(false);
   const [restaurant, setRestaurant] = useState(INITIAL_RES);
-  const [currentInfo, setCurrentInfo] = useState(INITIAL_RES);
   const [copied, setCopied] = useState(false);
   const { currentUser } = useAuth();
 
@@ -193,15 +233,21 @@ const Settings = () => {
     resRef.onSnapshot((qs) => {
       // console.log("id", qs.id);
       // console.log("qs", qs.data());
-      // setRestaurant({ ...restaurant, ...qs.data() });
-      setCurrentInfo({ ...currentInfo, ...qs.data(), uid: currentUser.uid });
+      setRestaurant({
+        ...restaurant,
+        ...qs.data(),
+        theme: theme,
+        minMode: minMode,
+        uid: currentUser.uid,
+      });
+      // setCurrentInfo({ ...currentInfo, ...qs.data(), uid: currentUser.uid });
       setLoading(false);
     });
   };
   const copyToClipboard = (e) => {
     e.preventDefault();
 
-    navigator.clipboard.writeText(`w8r.in/r/${currentInfo.uid}`);
+    navigator.clipboard.writeText(`w8r.in/r/${restaurant.uid}`);
     setCopied(true);
   };
 
@@ -217,7 +263,11 @@ const Settings = () => {
     if (snapShot.exists) {
       try {
         setLoading(true);
-        await resRef.set(restaurant);
+        await resRef.set({
+          ...restaurant,
+          theme: theme,
+          minMode: minMode,
+        });
         setLoading(false);
       } catch (e) {
         setLoading(false);
@@ -229,17 +279,16 @@ const Settings = () => {
   return (
     <SettingsContainer>
       <SettingsWrapper>
-        <CurrentInfo>
+        {/* <CurrentInfo>
           <Header>
             <MdInfoOutline />
             Current Information
           </Header>
           <CurrentInfoMessage>
             The following information will be used to help your customers
-            identify your restaurant.{" "}
+            identify your restaurant.
           </CurrentInfoMessage>
           <Table>
-            {/* <thead><tr><th></th></tr></thead> */}
             <tbody>
               <tr>
                 <td>restaurant name</td>
@@ -278,20 +327,32 @@ const Settings = () => {
             </CopyMessage>
           )}
         </CurrentInfo>
-        <Divider />
+        <Divider /> */}
         <FormContainer onSubmit={handleSubmit} noValidate>
           <Header>
             <MdEdit />
             Update Information
           </Header>
-
-          {!currentInfo.restaurantName && (
+          {!restaurant.restaurantName && (
             <FirstSetUp>
               We noticed you have just signed up for our services! We recommend
               you fill in the below information to help your customers find your
               restaurant!
             </FirstSetUp>
           )}
+          {copied && (
+            <CopyMessage>
+              <p>Copied to clipboard!</p>
+              <p>
+                This link is what your customers will use to waitlist or
+                reserve. Advertise this link on your website, yelp, etc.
+              </p>
+            </CopyMessage>
+          )}
+          <CurrentInfoMessage>
+            The following information will be used to help your customers
+            identify your restaurant.
+          </CurrentInfoMessage>
           <SpacedInput
             type="text"
             htmlFor="restaurant"
@@ -329,7 +390,35 @@ const Settings = () => {
             onChange={(e) =>
               setRestaurant({ ...restaurant, maxPartySize: e.target.value })
             }
+            min="1"
           />
+          <ButtonInput
+            type="text"
+            htmlFor="shareLink"
+            label="Share link"
+            value={`w8r.in/r/${restaurant.uid}`}
+            onClick={copyToClipboard}
+            disabled
+          />
+
+          <FieldContainer>
+            <Label>Theme: {theme}</Label>
+            <ToggleButton
+              type="button"
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              value={theme === "dark" ? true : false}
+            />
+          </FieldContainer>
+
+          <FieldContainer>
+            <Label>Min Mode: {minMode ? "on" : "off"}</Label>
+            <ToggleButton
+              type="button"
+              onClick={() => setMinMode(!minMode)}
+              value={minMode}
+            />
+          </FieldContainer>
+
           {/* <ButtonContainer> */}
           {/* <RegisterButton
               text="skip for demo"

@@ -438,9 +438,9 @@ const Sidebar = ({ children, ...props }) => {
           // type="circle"
           showText={sidenavOpen}
           text="theme"
-          icon={themeToggle ? MdBrightness7 : MdBrightness4}
+          icon={themeToggle === "dark" ? MdBrightness7 : MdBrightness4}
           onClick={() => {
-            toggleTheme(!themeToggle);
+            toggleTheme(themeToggle === "dark" ? "light" : "dark");
           }}
         />
 

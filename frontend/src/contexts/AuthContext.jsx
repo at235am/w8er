@@ -1,16 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { auth, createRestaurantProfile } from "../firebase";
+import { useRecoilState } from "recoil";
+import { auth, createRestaurantProfile, db } from "../firebase";
+import { sidebarNav } from "../recoil/SidebarNav";
+import { themeState } from "../recoil/ThemeState";
 
 const AuthContext = React.createContext();
 
 const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
+  const [theme, setTheme] = useRecoilState(themeState);
+  const [minMode, setMinMode] = useRecoilState(sidebarNav);
   // const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
       setCurrentUser(user);
-      createRestaurantProfile(user);
+      // console.log(user);
+      let resRef = await createRestaurantProfile(user);
+
+      if (user) {
+        let dataRef = await resRef.get();
+        let { minMode, theme } = dataRef.data();
+        setTheme(theme);
+        setMinMode(minMode);
+      }
       // setLoading(false);
     });
 

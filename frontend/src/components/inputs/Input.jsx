@@ -141,7 +141,7 @@ const Required = styled.span`
 `;
 
 const Input = React.forwardRef(
-  ({ className, error, label, htmlFor, type, ...props }, ref) => {
+  ({ className, error, label, htmlFor, type, onClick, ...props }, ref) => {
     const [focused, setFocused] = useState(false);
     const [passwordVisible, setPasswordVisible] = useState(false);
     const inputRef = useRef({ current: { value: "" } });
@@ -153,7 +153,11 @@ const Input = React.forwardRef(
     };
 
     return (
-      <InputWrapper className={className} value={inputRef.current.value}>
+      <InputWrapper
+        className={className}
+        onClick={onClick}
+        value={inputRef.current.value}
+      >
         {label && (
           <Label
             htmlFor={htmlFor}

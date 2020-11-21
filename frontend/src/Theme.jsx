@@ -189,12 +189,17 @@ const GlobalReset = () => {
   );
 };
 
+const THEMES = {
+  light: themeLight,
+  dark: themeDark,
+};
+
 const ThemedApp = () => {
   // const darkTheme = useRecoilValue(themeState);
-  const lightTheme = useRecoilValue(themeState);
+  const selectedTheme = useRecoilValue(themeState);
 
   return (
-    <ThemeProvider theme={lightTheme ? themeLight : themeDark}>
+    <ThemeProvider theme={THEMES[selectedTheme]}>
       <GlobalReset />
       <HelmetProvider>
         <App />

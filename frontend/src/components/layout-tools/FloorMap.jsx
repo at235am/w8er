@@ -3,6 +3,8 @@ import ReactFlow, { Background, MiniMap } from "react-flow-renderer";
 import { useTheme } from "emotion-theming";
 import { rgba } from "emotion-rgba";
 import { HiUser } from "react-icons/hi";
+import { db } from "../../firebase";
+import { useStoreActions } from "react-flow-renderer";
 
 // styling:
 /** @jsx jsx */
@@ -23,6 +25,7 @@ import {
   Triangle,
 } from "../layout-tools/ToolNodeDisplay";
 import { useRecoilState } from "recoil";
+import { useAuth } from "../../contexts/AuthContext";
 
 // import "../idk.css";
 
@@ -63,17 +66,58 @@ const nodeTypes = {
 };
 
 const FloorMap = () => {
-  const [reactFlow, setReactFlow] = useState({});
   const theme = useTheme();
   const fmRef = useRef();
+  // const [firstLoad, setFirstLoad] = useState(true);
+  const fitView = useStoreActions((actions) => actions.fitView);
+  const zoomTo = useStoreActions((actions) => actions.zoomTo);
   // const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [items, setItems] = useRecoilState(FloorMapItems);
-  const [endDropCoords, setEndDropCoords] = useState({ x: 0, y: 0 });
+  const { currentUser } = useAuth();
+  const layoutRef = db
+    .collection("restaurants")
+    .doc(currentUser.uid)
+    .collection("layout");
+
+  const fetchFirst = async () => {
+    console.log("fetch");
+    try {
+      let data = await layoutRef.get();
+      const layoutItems = [];
+      data.forEach((doc) => {
+        // console.log("doc1", doc.data());
+        layoutItems.push(doc.data());
+      });
+      setItems(layoutItems);
+      console.log("fetch done");
+    } catch (e) {
+      console.log("onLoad error", e);
+    }
+  };
+
+  useEffect(() => {
+    const unSubscribeFromLayout = layoutRef.onSnapshot((qs) => {
+      const items = [];
+      qs.forEach((doc) => {
+        items.push(doc.data());
+      });
+
+      setItems(items);
+    });
+
+    return () => {
+      unSubscribeFromLayout();
+    };
+  }, []);
+
+  useEffect(() => {
+    fitView();
+    zoomTo(1);
+  }, [items]);
 
   const onLoad = (reactFlowInstance) => {
     reactFlowInstance.fitView();
     reactFlowInstance.zoomTo(1);
-    setReactFlow(reactFlowInstance);
   };
 
   return (

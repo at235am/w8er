@@ -211,13 +211,15 @@ const GLExtras = styled.div`
 `;
 
 const Divider = styled.div`
-  /* background-color: red; */
+  background-color: ${({ theme }) => theme.colors.primary};
   height: 2rem;
-  width: 100%;
+  width: 96%;
   padding: 0 0.5rem;
 
   display: flex;
   align-items: center;
+
+  border-radius: 5rem;
 
   cursor: pointer;
   margin: 0.5rem 0;
@@ -225,22 +227,24 @@ const Divider = styled.div`
   .title {
     white-space: nowrap;
     height: 100%;
+    width: 6rem;
+    min-width: 6rem;
     padding: 0 1rem;
-    border-radius: 5rem;
-    color: ${({ theme }) => theme.colors.onBackground};
-    background-color: ${({ theme }) => theme.colors.background};
+    /* border-radius: 5rem; */
+    color: ${({ theme }) => theme.colors.onPrimary};
+    /* background-color: ${({ theme }) => theme.colors.background}; */
     font-weight: bold;
 
     display: flex;
-    justify-content: center;
+    /* justify-content: center; */
     align-items: center;
 
-    border-bottom: 2px solid ${({ theme }) => theme.colors.outline};
+    /* border-bottom: 2px solid ${({ theme }) => theme.colors.outline}; */
   }
 
   .line {
-    background-color: ${({ theme }) => theme.colors.background};
-    height: 3px;
+    /* background-color: ${({ theme }) => theme.colors.background};
+    height: 3px; */
     flex: 1;
     margin-left: 0.5rem;
   }
@@ -253,8 +257,9 @@ const Divider = styled.div`
     min-width: 2rem;
     border-radius: 50%;
     overflow: hidden;
-    background-color: ${({ theme }) => theme.colors.background};
-    color: ${({ theme }) => theme.colors.onBackground};
+    /* background-color: ${({ theme }) => theme.colors.background}; */
+    background-color: transparent;
+    color: ${({ theme }) => theme.colors.onPrimary};
     font-weight: bold;
     margin-left: 0.5rem;
 
@@ -262,7 +267,7 @@ const Divider = styled.div`
     justify-content: center;
     align-items: center;
 
-    border-bottom: 2px solid ${({ theme }) => theme.colors.outline};
+    /* border-bottom: 2px solid ${({ theme }) => theme.colors.outline}; */
 
     svg {
       /* border-radius: 50%; */
@@ -275,24 +280,26 @@ const Divider = styled.div`
       transform: rotate(${({ expand }) => (expand ? 0 : -180)}deg);
 
       path {
-        fill: ${({ theme }) => theme.colors.onBackground};
+        fill: ${({ theme }) => theme.colors.onPrimary};
       }
     }
   }
 
   &:hover {
-    .title {
-      color: ${({ theme }) => theme.colors.primary};
+    background-color: ${({ theme }) => theme.colors.secondary};
+
+    /* .title {
+      background-color: ${({ theme }) => theme.colors.secondary};
     }
     button {
-      color: ${({ theme }) => theme.colors.primary};
+      background-color: ${({ theme }) => theme.colors.secondary};
 
       svg {
         path {
-          fill: ${({ theme }) => theme.colors.primary};
+          fill: ${({ theme }) => theme.colors.secondary};
         }
       }
-    }
+    } */
   }
 `;
 
@@ -472,6 +479,9 @@ const GuestList = () => {
         onClick={() => {
           setSeatedOpen(!seatedOpen);
         }}
+        css={css`
+          margin-top: 2rem;
+        `}
       >
         <h2 className="title">Seated</h2>
         <button>
@@ -506,6 +516,9 @@ const GuestList = () => {
         onClick={() => {
           setFinishedOpen(!finishedOpen);
         }}
+        css={css`
+          margin-top: 2rem;
+        `}
       >
         <h2 className="title">Finished</h2>
         <button>

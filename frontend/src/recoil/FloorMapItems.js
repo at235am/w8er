@@ -173,5 +173,6 @@ const INITIAL_NODES = [
 
 export const FloorMapItems = atom({
   key: "floorMapItems",
-  default: INITIAL_NODES,
+  // default: INITIAL_NODES,
+  default: [],
 });

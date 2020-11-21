@@ -213,7 +213,7 @@ const GuestItem = ({
   const [itemExpand, setItemExpand] = useState(false);
   const theme = useTheme();
   const [
-    { isDragging, end, coords, opacity, ...dragProps },
+    { isDragging, end, coords, dropped, ...dragProps },
     drag,
     preview,
   ] = useDrag({
@@ -221,14 +221,27 @@ const GuestItem = ({
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(),
       end: monitor.getDropResult(),
-      opacity: monitor.isDragging() ? 0.1 : 1,
+      // opacity: monitor.isDragging() ? 0.1 : 1,
+      dropped: monitor.didDrop(),
     }),
   });
   const { currentUser } = useAuth();
+
   const guestlistRef = db
     .collection("restaurants")
     .doc(currentUser.uid)
     .collection("guestlist");
+
+  // useEffect(() => {
+  //   if (dropped) {
+  //     const { id } = guestInfo;
+  //   try {
+  //     await guestlistRef.doc(id).update({...guestInfo});
+  //   } catch (e) {
+  //     console.log("guest item error", e);
+  //   }
+  //   }
+  // }, [dropped]);
 
   const updateGuestItem = async (data) => {
     const { id } = guestInfo;

@@ -3,6 +3,7 @@ import ReactFlow, { Background, MiniMap } from "react-flow-renderer";
 import { useTheme } from "emotion-theming";
 import { rgba } from "emotion-rgba";
 import { HiUser } from "react-icons/hi";
+import { db } from "../../firebase";
 
 // styling:
 /** @jsx jsx */
@@ -23,6 +24,7 @@ import {
   Triangle,
 } from "../layout-tools/ToolNodeEdit";
 import { useRecoilState } from "recoil";
+import { useAuth } from "../../contexts/AuthContext";
 
 const shortid = require("shortid");
 
@@ -56,6 +58,7 @@ const FloorMapEdit = () => {
   const [reactFlow, setReactFlow] = useState({});
   const theme = useTheme();
   const fmRef = useRef();
+  const { currentUser } = useAuth();
   // const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [items, setItems] = useRecoilState(FloorMapItems);
   const [endDropCoords, setEndDropCoords] = useState({ x: 0, y: 0 });
@@ -73,6 +76,11 @@ const FloorMapEdit = () => {
       setEndDropCoords({ x: fin.x - offset.x, y: fin.y - offset.y });
     },
   });
+
+  const layoutRef = db
+    .collection("restaurants")
+    .doc(currentUser.uid)
+    .collection("layout");
 
   // const updateNode = (id, updatedItem) => {
   //   console.log("updateNode", id, updatedItem);
@@ -97,10 +105,47 @@ const FloorMapEdit = () => {
   // };
 
   useEffect(() => {
+    // setLoading(true);
+
+    const unSubscribeFME = layoutRef.onSnapshot((qs) => {
+      // console.log("id", qs.id);
+      // console.log("qs", qs.data());
+      const items = [];
+      // console.log("hey qs here", qs);
+      qs.forEach((doc) => {
+        // const data = doc.data();
+
+        // let { departureTime, reserveTime, seatedTime, waitTime } = data;
+        // if (departureTime.toDate) departureTime = departureTime.toDate();
+        // if (reserveTime.toDate) reserveTime = reserveTime.toDate();
+        // if (seatedTime.toDate) seatedTime = seatedTime.toDate();
+        // if (waitTime.toDate) waitTime = waitTime.toDate();
+
+        // console.log("onedoc", doc.data());
+        // const newItem = {
+        //   ...data,
+        //   departureTime,
+        //   reserveTime,
+        //   seatedTime,
+        //   waitTime,
+        // };
+
+        items.push(doc.data());
+      });
+
+      setItems(items);
+    });
+
+    return () => {
+      unSubscribeFME();
+    };
+  }, []);
+
+  useEffect(() => {
     console.log("didDrop", didDrop, item);
 
     if (item) {
-      console.log("didDrop", didDrop, item.data);
+      // console.log("didDrop", didDrop, item.data);
       const projectPosition = reactFlow.project(endDropCoords);
       const newItem = {
         type: item.data.type,
@@ -108,8 +153,14 @@ const FloorMapEdit = () => {
         data: { ...item.data, position: projectPosition },
         position: projectPosition,
       };
-      console.log("newItem", newItem);
-      setItems([...items, newItem]);
+      // console.log("newItem", newItem);
+      // setItems([...items, newItem]);
+
+      layoutRef
+        .doc(newItem.id)
+        .set(newItem)
+        .then((res) => console.log("didDrop ressss", res))
+        .catch((e) => console.log("didDrop Errorrrr", e));
     }
   }, [didDrop]);
 

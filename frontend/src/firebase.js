@@ -19,32 +19,12 @@ export const createRestaurantProfile = async (userAuth) => {
   if (!userAuth) return;
 
   const resRef = db.doc(`restaurants/${userAuth.uid}`);
-  const layoutRef = db.doc(`layout/${userAuth.uid}`);
-  const guestlistRef = db.doc(`guestlist/${userAuth.uid}`);
 
   const snapShot = await resRef.get();
 
   if (!snapShot.exists) {
     try {
       await resRef.set({
-        uid: userAuth.uid,
-        restaurantName: "",
-        address: "",
-        phoneNumber: "",
-        maxPartySize: 10,
-        minMode: true,
-        theme: "dark",
-      });
-      // await layoutRef.set({
-      //   uid: userAuth.uid,
-      //   restaurantName: "",
-      //   address: "",
-      //   phoneNumber: "",
-      //   maxPartySize: 10,
-      //   minMode: true,
-      //   theme: "dark",
-      // });
-      await guestlistRef.set({
         uid: userAuth.uid,
         restaurantName: "",
         address: "",

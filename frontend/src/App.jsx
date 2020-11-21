@@ -128,7 +128,7 @@ const App = ({ ...props }) => {
                     />
                     <Route exact path="/settings" component={Settings} />
                     <Route path="/">
-                      {currentUser.restaurant ? (
+                      {!currentUser.restaurant ? (
                         <Redirect to="/floor-map" />
                       ) : (
                         <Redirect to="/settings" />

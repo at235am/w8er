@@ -76,7 +76,7 @@ const ToolNode = memo(
   ({
     id,
     type = "square",
-    selected,
+    // selected,
     data = DEFAULT_NODE_DATA,
     mode = "normal",
     info,
@@ -163,62 +163,62 @@ const Square = ({ selected, ...props }) => {
   return (
     <ToolNode
       {...props}
-      selected={selected}
+      // selected={selected}
       shape={SquareShape}
       type="square"
     ></ToolNode>
   );
 };
 
-const Circle = ({ selected, ...props }) => {
+const Circle = ({ ...props }) => {
   return (
     <ToolNode
       {...props}
-      selected={selected}
+      // selected={selected}
       shape={CircleShape}
       type="circle"
     ></ToolNode>
   );
 };
 
-const HalfCircle = ({ selected, ...props }) => {
+const HalfCircle = ({ ...props }) => {
   return (
     <ToolNode
       {...props}
-      selected={selected}
+      // selected={selected}
       shape={HalfCircleShape}
       type="halfCircle"
     ></ToolNode>
   );
 };
 
-const Lshape = ({ selected, ...props }) => {
+const Lshape = ({ ...props }) => {
   return (
     <ToolNode
       {...props}
-      selected={selected}
+      // selected={selected}
       shape={LshapeShape}
       type="lshape"
     ></ToolNode>
   );
 };
 
-const Rectangle = ({ selected, ...props }) => {
+const Rectangle = ({ ...props }) => {
   return (
     <ToolNode
       {...props}
-      selected={selected}
+      // selected={selected}
       shape={RectangleShape}
       type="rectangle"
     ></ToolNode>
   );
 };
 
-const Triangle = ({ selected, ...props }) => {
+const Triangle = ({ ...props }) => {
   return (
     <ToolNode
       {...props}
-      selected={selected}
+      // selected={selected}
       shape={TriangleShape}
       type="triangle"
     ></ToolNode>

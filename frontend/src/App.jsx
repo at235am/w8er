@@ -137,6 +137,17 @@ const App = ({ ...props }) => {
                   </Switch>
                 </Main>
                 <Overlay />
+                <div
+                  id="notification"
+                  css={css`
+                    /* background-color: #fff; */
+                    width: 100%;
+                    /* height: 2rem; */
+                    position: fixed;
+                    bottom: 0;
+                    z-index: 100;
+                  `}
+                ></div>
               </FlexWrapper>
             )}
 

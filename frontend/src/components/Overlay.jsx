@@ -16,6 +16,11 @@ import { MdSettings } from "react-icons/md";
 // logo:
 
 import { ReactComponent as Logo } from "../assets/w8r-logo.svg";
+import { SaveButtonState } from "../recoil/SaveButtonState";
+import { ChangeDetectedState } from "../recoil/ChangeDetectedState";
+
+import Button from "./buttons/Button";
+import Spinner from "./Spinner";
 
 const OverlayContainer = styled.div`
   position: relative;
@@ -156,60 +161,71 @@ const Overlay = () => {
   const history = useHistory();
   const sidebarOpen = useRecoilValue(sidebarState);
   const [sbItem, setSbItem] = useRecoilState(sidebarItem);
+  // const [saveLoading, setSaveLoading] = useRecoilState(SaveButtonState);
+  // const [changedDetected, setChangedDetected] = useRecoilState(
+  //   ChangeDetectedState
+  // );
 
   useEffect(() => {
     // console.log("polo");
   });
 
   return (
-    <OverlayContainer sidebar={sidebarOpen} className="overlay">
-      <Content>
-        <HeaderWrapper>
-          {history.location.pathname === "/floor-map" && (
-            <Header>
-              Floor Map:
-              <LiveEditToggleWrapper>
-                <LiveHighlight>live</LiveHighlight>
-                <NeutralHighlight
-                  onClick={() => {
-                    setSbItem(1);
-                    history.push("/floor-map/edit");
-                  }}
-                >
-                  edit
-                </NeutralHighlight>
-              </LiveEditToggleWrapper>
-            </Header>
-          )}
+    <React.Fragment>
+      <OverlayContainer sidebar={sidebarOpen} className="overlay">
+        <Content>
+          <HeaderWrapper>
+            {history.location.pathname === "/floor-map" && (
+              <Header>
+                Floor Map:
+                <LiveEditToggleWrapper>
+                  <LiveHighlight>live</LiveHighlight>
+                  <NeutralHighlight
+                    onClick={() => {
+                      setSbItem(1);
+                      history.push("/floor-map/edit");
+                    }}
+                  >
+                    edit
+                  </NeutralHighlight>
+                </LiveEditToggleWrapper>
+              </Header>
+            )}
 
-          {history.location.pathname === "/floor-map/edit" && (
-            <Header>
-              Floor Map:
-              <LiveEditToggleWrapper>
-                <NeutralHighlight
-                  onClick={() => {
-                    setSbItem(0);
-                    history.push("/floor-map");
-                  }}
-                >
-                  live
-                </NeutralHighlight>
-                <EditHighlight>edit</EditHighlight>
-              </LiveEditToggleWrapper>
-            </Header>
-          )}
+            {history.location.pathname === "/floor-map/edit" && (
+              <Header>
+                Floor Map:
+                <LiveEditToggleWrapper>
+                  <NeutralHighlight
+                    onClick={() => {
+                      setSbItem(0);
+                      history.push("/floor-map");
+                    }}
+                  >
+                    live
+                  </NeutralHighlight>
+                  <EditHighlight>edit</EditHighlight>
+                </LiveEditToggleWrapper>
+              </Header>
+            )}
 
-          {history.location.pathname === "/settings" && (
-            <React.Fragment>
-              <Header>Settings</Header>
+            {history.location.pathname === "/settings" && (
+              <React.Fragment>
+                <Header>Settings</Header>
 
-              <MdSettings />
-            </React.Fragment>
-          )}
-        </HeaderWrapper>
-        {/* <StyledLogo /> */}
-      </Content>
-    </OverlayContainer>
+                <MdSettings />
+              </React.Fragment>
+            )}
+          </HeaderWrapper>
+          {/* <StyledLogo /> */}
+        </Content>
+      </OverlayContainer>
+      {/* <BottomOverlay>
+        {changedDetected && (
+          <NotificationText>You have unsaved changes</NotificationText>
+        )}
+      </BottomOverlay> */}
+    </React.Fragment>
   );
 };
 

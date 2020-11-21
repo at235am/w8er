@@ -79,21 +79,21 @@ const FloorMap = () => {
     .doc(currentUser.uid)
     .collection("layout");
 
-  const fetchFirst = async () => {
-    console.log("fetch");
-    try {
-      let data = await layoutRef.get();
-      const layoutItems = [];
-      data.forEach((doc) => {
-        // console.log("doc1", doc.data());
-        layoutItems.push(doc.data());
-      });
-      setItems(layoutItems);
-      console.log("fetch done");
-    } catch (e) {
-      console.log("onLoad error", e);
-    }
-  };
+  // const fetchFirst = async () => {
+  //   console.log("fetch");
+  //   try {
+  //     let data = await layoutRef.get();
+  //     const layoutItems = [];
+  //     data.forEach((doc) => {
+  //       // console.log("doc1", doc.data());
+  //       layoutItems.push(doc.data());
+  //     });
+  //     setItems(layoutItems);
+  //     console.log("fetch done");
+  //   } catch (e) {
+  //     console.log("onLoad error", e);
+  //   }
+  // };
 
   useEffect(() => {
     const unSubscribeFromLayout = layoutRef.onSnapshot((qs) => {
@@ -101,6 +101,7 @@ const FloorMap = () => {
       qs.forEach((doc) => {
         items.push(doc.data());
       });
+      console.log("floor map rl time");
 
       setItems(items);
     });

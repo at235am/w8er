@@ -39,9 +39,10 @@ const ToolNode = memo(
   ({
     id,
     type = "square",
-    selected,
+    selected = false,
     data = DEFAULT_NODE_DATA,
     mode = "normal",
+    position,
     info,
     rotateUnit = 15,
     sizeUnit = 20,
@@ -53,39 +54,15 @@ const ToolNode = memo(
     const [label, setLabel] = useState(data.label);
     const [items, setItems] = useRecoilState(FloorMapItems);
 
-    useEffect(() => {
-      // console.log("ToolNodeChanged", id, type, rotateAngle, data.rotateAngle);
-    }, [rotateAngle, size, label]);
-
-    // // partial data update
-    // const updateNodeData = (dataUpdate) => {
-    //   const deleteIndex = items.findIndex((item, i) => item.id === id);
-    //   if (deleteIndex > -1) {
-    //     const itemCopy = items[deleteIndex];
-
-    //     const updatedItem = {
-    //       ...itemCopy,
-    //       data: { ...itemCopy.data, ...dataUpdate },
-    //     };
-
-    //     const updatedItems = [
-    //       ...items.slice(0, deleteIndex),
-    //       ...items.slice(deleteIndex + 1, items.length),
-    //       updatedItem,
-    //     ];
-    //     setItems(updatedItems);
-    //   }
-    // };
-
-    const updateNodeData = () => {
+    // partial data update
+    const updateNodeData = (dataUpdate) => {
       const deleteIndex = items.findIndex((item, i) => item.id === id);
-
       if (deleteIndex > -1) {
         const itemCopy = items[deleteIndex];
 
         const updatedItem = {
           ...itemCopy,
-          data: { ...itemCopy.data, rotateAngle, size, label },
+          data: { changed: true, ...itemCopy.data, ...dataUpdate },
         };
 
         const updatedItems = [
@@ -93,14 +70,42 @@ const ToolNode = memo(
           ...items.slice(deleteIndex + 1, items.length),
           updatedItem,
         ];
-
         setItems(updatedItems);
       }
     };
 
     useEffect(() => {
-      updateNodeData();
-    }, [selected]);
+      console.log("postion change", type, id);
+    }, [position]);
+
+    useEffect(() => {}, [rotateAngle, size, label, items]);
+
+    // const updateNodeData = () => {
+    //   const deleteIndex = items.findIndex((item, i) => item.id === id);
+
+    //   if (deleteIndex > -1) {
+    //     const itemCopy = items[deleteIndex];
+
+    //     const updatedItem = {
+    //       ...itemCopy,
+    //       data: { ...itemCopy.data, rotateAngle, size, label },
+    //     };
+
+    //     const updatedItems = [
+    //       ...items.slice(0, deleteIndex),
+    //       ...items.slice(deleteIndex + 1, items.length),
+    //       updatedItem,
+    //     ];
+
+    //     setItems(updatedItems);
+    //   }
+    // };
+
+    // useEffect(() => {
+    //   console.log("selected", type, id, selected);
+    //   updateNodeData();
+    //   // setSize(size + sizeUnit);
+    // }, [selected]);
 
     // useEffect(() => {
     //   updateNodeData();
@@ -109,27 +114,27 @@ const ToolNode = memo(
     const rotateCW = () => {
       const newValue = rotateAngle + rotateUnit;
       setRotateAngle(newValue);
-      // updateNodeData({ rotateAngle: newValue });
+      updateNodeData({ rotateAngle: newValue });
     };
 
     const rotateCCW = () => {
       const newValue = rotateAngle - rotateUnit;
       setRotateAngle(newValue);
-      // updateNodeData({ rotateAngle: newValue });
+      updateNodeData({ rotateAngle: newValue });
     };
 
     const increaseSize = () => {
       const { height, width } = size;
       const newValue = { height: height + sizeUnit, width: width + sizeUnit };
       setSize(newValue);
-      // updateNodeData({ size: newValue });
+      updateNodeData({ size: newValue });
     };
 
     const decreaseSize = () => {
       const { height, width } = size;
       const newValue = { height: height - sizeUnit, width: width - sizeUnit };
       setSize(newValue);
-      // updateNodeData({ size: newValue });
+      updateNodeData({ size: newValue });
     };
 
     const cwLongPressAction = useRepeatLongPress(rotateCW, 200);
@@ -158,6 +163,7 @@ const ToolNode = memo(
           }}
         />
         <HiddenHack selected={selected}>
+          {/* <HiddenHack selected={true}> */}
           <RotateCCWControl {...ccwLongPressAction}>
             <BiRotateLeft />
           </RotateCCWControl>
@@ -183,6 +189,7 @@ const Square = ({ selected, ...props }) => {
       selected={selected}
       shape={SquareShape}
       type="square"
+      position={props.position}
     ></ToolNode>
   );
 };
@@ -194,6 +201,7 @@ const Circle = ({ selected, ...props }) => {
       selected={selected}
       shape={CircleShape}
       type="circle"
+      position={props.position}
     ></ToolNode>
   );
 };
@@ -205,6 +213,7 @@ const HalfCircle = ({ selected, ...props }) => {
       selected={selected}
       shape={HalfCircleShape}
       type="halfCircle"
+      position={props.position}
     ></ToolNode>
   );
 };
@@ -216,6 +225,7 @@ const Lshape = ({ selected, ...props }) => {
       selected={selected}
       shape={LshapeShape}
       type="lshape"
+      position={props.position}
     ></ToolNode>
   );
 };
@@ -227,6 +237,7 @@ const Rectangle = ({ selected, ...props }) => {
       selected={selected}
       shape={RectangleShape}
       type="rectangle"
+      position={props.position}
     ></ToolNode>
   );
 };
@@ -238,6 +249,7 @@ const Triangle = ({ selected, ...props }) => {
       selected={selected}
       shape={TriangleShape}
       type="triangle"
+      position={props.position}
     ></ToolNode>
   );
 };

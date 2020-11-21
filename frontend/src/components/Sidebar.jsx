@@ -12,7 +12,7 @@ import { useTheme } from "emotion-theming";
 import { rgba } from "emotion-rgba";
 
 // state management:
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { themeState } from "../recoil/ThemeState";
 import { sidebarState } from "../recoil/SidebarState";
 import { sidebarItem } from "../recoil/SidebarItem";
@@ -40,6 +40,7 @@ import { BsLayoutTextSidebar } from "react-icons/bs";
 import "./tooltip.css";
 import { userState } from "../recoil/UserState";
 import { sidebarNav } from "../recoil/SidebarNav";
+import { FloorMapItems } from "../recoil/FloorMapItems";
 
 const sbClosed = css`
   width: 0;
@@ -317,6 +318,7 @@ const Sidebar = ({ children, ...props }) => {
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarState);
   const [sidenavOpen, setSidenavOpen] = useRecoilState(sidebarNav);
   const [itemSelected, setItemSelected] = useRecoilState(sidebarItem);
+  const nodeItems = useRecoilValue(FloorMapItems);
 
   const [user, setUser] = useRecoilState(userState);
   const { logout } = useAuth();
@@ -326,6 +328,10 @@ const Sidebar = ({ children, ...props }) => {
   const location = useLocation();
 
   const [themeToggle, toggleTheme] = useRecoilState(themeState);
+
+  useEffect(() => {
+    console.log("there has been a change to node items", nodeItems);
+  }, [nodeItems]);
   // const [mQuery, setMQuery] = useState({
   //   matches: window.innerWidth > 500 ? false : true,
   // });

@@ -18,6 +18,7 @@ import { db } from "../firebase";
 import { useAuth } from "../contexts/AuthContext";
 import { useHistory, useLocation } from "react-router-dom";
 import { TiLocation } from "react-icons/ti";
+import axios from "axios";
 
 const INITIAL_ACC_INFO = {
   restaurantName: "",
@@ -246,8 +247,12 @@ const RegisterPage = ({ match, ...props }) => {
 
     const newGuest = {
       ...data,
+      restaurantId: restaurantData.uid,
       id: resRef.doc().id,
-      table: { id: seating.id, label: seating.label },
+      table: {
+        id: seating.id ? seating.id : "",
+        label: seating.label ? seating.label : "",
+      },
       // id: shortid.generate(),
       tabledAssigned: "",
       departureTime: "",
@@ -267,16 +272,26 @@ const RegisterPage = ({ match, ...props }) => {
     // console.log("new customer", newGuest);
     try {
       // setLoading(true);
-      console.log("newGuest self", newGuest);
+      // console.log("newGuest self", newGuest);
+      // console.log("res id", match.params.id);
       await resRef
         .doc(match.params.id)
         .collection("guestlist")
         .doc(newGuest.id)
         .set(newGuest);
+
+      // let ax = await axios.get("http://localhost:5000/sms", {
+      let ax = await axios.get("https://w8r.in/sms", {
+        params: newGuest,
+      });
+
+      console.log("ax", ax);
+
       // setLoading(false);
+      history.push(`/c/${newGuest.id}`);
     } catch (e) {
       // setLoading(false);
-      console.log("error creating res", e);
+      // console.log("error creating res", e);
     }
 
     // setInfo("");
@@ -288,7 +303,7 @@ const RegisterPage = ({ match, ...props }) => {
 
       .get()
       .then((res) => {
-        console.log("hey my info", res.data());
+        // console.log("hey my info", res.data());
         setRestaurantData(res.data());
         // const items = [];
         // res.forEach((i) => {
@@ -319,12 +334,12 @@ const RegisterPage = ({ match, ...props }) => {
   }, [location]);
 
   const createPartySizeList = (size = 0) => {
-    console.log("size test", size);
+    // console.log("size test", size);
     const arr = [];
     for (let i = 1; i <= size; i++) {
       arr.push({ id: i, label: i });
     }
-    console.log("famous last array 2", arr);
+    // console.log("famous last array 2", arr);
 
     return arr;
   };

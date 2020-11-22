@@ -50,7 +50,7 @@ const SpacedInput = styled(Input)`
 `;
 const INITIAL_GUEST = {
   name: "", // easy (completed)
-  party: "", // hard (completed)
+  party: { id: 1, label: 1 }, // hard (completed)
   phone: "", // hard
   table: "", // hard (completed)
   notes: "", // text area easy
@@ -131,6 +131,8 @@ const AddGuest = React.forwardRef(({ handleChange, ...props }, ref) => {
 
     const newGuest = {
       ...guest,
+      restaurantId: currentUser.uid,
+
       // id: shortid.generate(),
       party: guest.party.label,
       id: resRef.doc().id,

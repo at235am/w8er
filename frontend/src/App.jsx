@@ -48,6 +48,7 @@ import { useRecoilValue } from "recoil";
 import { userState } from "./recoil/UserState";
 import { useAuth } from "./contexts/AuthContext";
 import NavigationBar from "./components/NavigationBar";
+import ConfirmationPage from "./pages/ConfirmationPage";
 
 const HTML5toTouch = {
   backends: [
@@ -177,7 +178,9 @@ const App = ({ ...props }) => {
                     path="/miles-steakhouse"
                     component={WaitListReservePage}
                   />
+
                   <Route path="/r/:id" component={WaitListReservePage} />
+                  <Route path="/c/:id" component={ConfirmationPage} />
 
                   <Route path="/">
                     <Redirect to="/" />

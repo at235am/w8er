@@ -359,6 +359,7 @@ const GuestList = () => {
             seatedTime,
             waitTime,
           };
+          console.log("newItem", newItem);
 
           // console.log(doc.data());
           items.push(newItem);

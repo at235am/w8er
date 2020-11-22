@@ -145,7 +145,7 @@ const SelectSlider = ({ label, options, handleChange, value, ...props }) => {
     <SelectSliderContainer {...props}>
       <Shadow orientation="left"></Shadow>
       <SelectSliderLabel
-        onClick={() => console.log("selectedItem", itemSelected)}
+      // onClick={() => console.log("selectedItem", itemSelected)}
       >
         {label}: <span>{value.id ? value.label : JSON.stringify(value)}</span>
       </SelectSliderLabel>
@@ -179,7 +179,7 @@ const SelectSlider = ({ label, options, handleChange, value, ...props }) => {
                 item.id ? item.id === itemSelected.id : item === itemSelected
               }
               onClick={() => {
-                console.log("good1", item);
+                // console.log("good1", item);
                 setItemSelected(item);
                 handleChange(item);
                 // console.log("good2");

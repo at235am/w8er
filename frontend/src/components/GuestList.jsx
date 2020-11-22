@@ -359,7 +359,7 @@ const GuestList = () => {
             seatedTime,
             waitTime,
           };
-          console.log("newItem", newItem);
+          // console.log("newItem", newItem);
 
           // console.log(doc.data());
           items.push(newItem);
@@ -420,6 +420,20 @@ const GuestList = () => {
     setGuestList(updatedItems);
   };
 
+  const sortByWaitTime = (list) => {
+    const sortedList = [...list];
+    sortedList.sort((a, b) => a.waitTime.getTime() - b.waitTime.getTime());
+
+    return sortedList;
+  };
+
+  const sortBySeatedTime = (list) => {
+    const sortedList = [...list];
+    sortedList.sort((a, b) => a.seatedTime.getTime() - b.seatedTime.getTime());
+
+    return sortedList;
+  };
+
   return (
     <GuestListContainer sidebarOpen={sidebarOpen}>
       <DrawerHeader
@@ -460,9 +474,8 @@ const GuestList = () => {
           {/* {guestList.length < 3 && (
             <AddText>(try adding more guests with the + button)</AddText>
           )} */}
-          {guestList
-            .filter((guest) => !guest.seatedTime)
-            .map((guest, i) => (
+          {sortByWaitTime(guestList.filter((guest) => !guest.seatedTime)).map(
+            (guest, i) => (
               <GuestItem
                 key={guest.id}
                 line={i + 1}
@@ -470,7 +483,8 @@ const GuestList = () => {
                 currentTime={currentTime}
                 handleChange={updateGuestItem}
               />
-            ))}
+            )
+          )}
         </ListContainer>
       )}
 
@@ -499,16 +513,18 @@ const GuestList = () => {
       </Divider>
       {seatedOpen && (
         <ListContainer className="guest-list">
-          {guestList
-            .filter((guest) => guest.seatedTime && !guest.departureTime)
-            .map((guest, i) => (
-              <GuestItem
-                key={guest.id}
-                guestInfo={guest}
-                currentTime={currentTime}
-                handleChange={updateGuestItem}
-              />
-            ))}
+          {sortBySeatedTime(
+            guestList.filter(
+              (guest) => guest.seatedTime && !guest.departureTime
+            )
+          ).map((guest, i) => (
+            <GuestItem
+              key={guest.id}
+              guestInfo={guest}
+              currentTime={currentTime}
+              handleChange={updateGuestItem}
+            />
+          ))}
         </ListContainer>
       )}
       {/* ----------------   THE FINISHED LIST  ----------------*/}

@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useHistory, Link, useLocation } from "react-router-dom";
-// import { ReactFlowProvider } from "react-flow-renderer";
-
-import ReactTooltip from "react-tooltip";
+import { useHistory, useLocation } from "react-router-dom";
 
 // styling:
 /** @jsx jsx */
@@ -21,9 +18,9 @@ import { useAuth } from "../contexts/AuthContext";
 // custom components:
 import Button from "./buttons/Button";
 import ToggleButton from "./buttons/ToggleButton";
-import Example from "./Example";
+
 import GuestList from "./GuestList";
-import FloorMapToolsDemo from "./FloorMapToolsDemo";
+
 import FloorMapTools from "./FloorMapTools";
 import Tool from "./layout-tools/Tool";
 
@@ -32,10 +29,8 @@ import { MdChevronRight } from "react-icons/md";
 import { MdSettings } from "react-icons/md";
 import { IoMdListBox } from "react-icons/io";
 import { BiCustomize } from "react-icons/bi";
-import { CgDebug } from "react-icons/cg";
 import { IoMdLogOut } from "react-icons/io";
 import { MdBrightness4, MdBrightness7, MdTextFields } from "react-icons/md";
-import { BsLayoutTextSidebar } from "react-icons/bs";
 
 import "./tooltip.css";
 import { userState } from "../recoil/UserState";
@@ -318,7 +313,7 @@ const Sidebar = ({ children, ...props }) => {
   const [sidebarOpen, setSidebarOpen] = useRecoilState(sidebarState);
   const [sidenavOpen, setSidenavOpen] = useRecoilState(sidebarNav);
   const [itemSelected, setItemSelected] = useRecoilState(sidebarItem);
-  const nodeItems = useRecoilValue(FloorMapItems);
+  // const nodeItems = useRecoilValue(FloorMapItems);
 
   const [user, setUser] = useRecoilState(userState);
   const { logout } = useAuth();
@@ -329,9 +324,10 @@ const Sidebar = ({ children, ...props }) => {
 
   const [themeToggle, toggleTheme] = useRecoilState(themeState);
 
-  useEffect(() => {
-    console.log("there has been a change to node items", nodeItems);
-  }, [nodeItems]);
+  // useEffect(() => {
+  //   console.log("there has been a change to node items", nodeItems);
+  // }, [nodeItems]);
+
   // const [mQuery, setMQuery] = useState({
   //   matches: window.innerWidth > 500 ? false : true,
   // });

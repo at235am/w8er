@@ -97,7 +97,7 @@ const AddGuest = React.forwardRef(({ handleChange, ...props }, ref) => {
       .doc(currentUser.uid)
       .get()
       .then((res) => {
-        console.log("hey my info add guest", res.data());
+        // console.log("hey my info add guest", res.data());
         setMaxPartySize(res.data().maxPartySize);
       })
       .catch((e) => console.log("error", e));
@@ -107,7 +107,7 @@ const AddGuest = React.forwardRef(({ handleChange, ...props }, ref) => {
       .collection("layout")
       .get()
       .then((res) => {
-        console.log("thats my table", res);
+        // console.log("thats my table", res);
         const resTables = [];
 
         res.forEach((i) => {
@@ -115,7 +115,7 @@ const AddGuest = React.forwardRef(({ handleChange, ...props }, ref) => {
           resTables.push({ id: newItem.id, label: newItem.data.label });
         });
 
-        console.log("resTables", resTables);
+        // console.log("resTables", resTables);
         setTables(resTables);
         // console.log("thats my table list", res.data());
         // res.forEach()

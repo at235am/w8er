@@ -101,7 +101,7 @@ const FloorMap = () => {
       qs.forEach((doc) => {
         items.push(doc.data());
       });
-      console.log("floor map rl time");
+      // console.log("floor map rl time");
 
       setItems(items);
     });
@@ -139,7 +139,7 @@ const FloorMap = () => {
         //   [500, 500],
         // ]}
         nodesDraggable={false}
-        onElementClick={(e, el) => console.log("coming from the east", el)}
+        // onElementClick={(e, el) => console.log("coming from the east", el)}
       >
         <Background
           variant="dots"

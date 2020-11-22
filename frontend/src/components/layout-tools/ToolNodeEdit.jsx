@@ -193,6 +193,7 @@ const ToolNode = memo(
           value={label}
           onChange={(e) => {
             setLabel(e.target.value);
+            updateNodeData({ label: e.target.value });
           }}
         />
         <HiddenHack selected={selected}>

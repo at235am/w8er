@@ -127,6 +127,12 @@ const App = ({ ...props }) => {
                       component={FloorMapEdit}
                     />
                     <Route exact path="/settings" component={Settings} />
+                    {/* <Route
+                      exact
+                      path="/r/:id"
+                      component={WaitListReservePage}
+                    /> */}
+
                     <Route path="/">
                       {!currentUser.restaurant ? (
                         <Redirect to="/floor-map" />
@@ -158,6 +164,8 @@ const App = ({ ...props }) => {
                   <Route exact path="/" component={LandingPage} />
                   <Route exact path="/register" component={RegisterPage} />
                   <Route exact path="/login" component={LoginPage} />
+                  {/* <Route path="/r/:id" component={LoginPage} /> */}
+
                   <Route
                     exact
                     path="/customer-faq"
@@ -169,6 +177,7 @@ const App = ({ ...props }) => {
                     path="/miles-steakhouse"
                     component={WaitListReservePage}
                   />
+                  <Route path="/r/:id" component={WaitListReservePage} />
 
                   <Route path="/">
                     <Redirect to="/" />

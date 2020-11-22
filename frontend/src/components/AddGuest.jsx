@@ -82,13 +82,47 @@ const TABLE_ARRAY = ["A", "B", "C", "D", "E", "F", "G", "B2", "ALT", "F4"];
 
 const AddGuest = React.forwardRef(({ handleChange, ...props }, ref) => {
   const [guest, setGuest] = useState(INITIAL_GUEST);
+  const [tables, setTables] = useState(TABLE_ARRAY);
   const [loading, setLoading] = useState(false);
   const { currentUser } = useAuth();
+  const [maxPartySize, setMaxPartySize] = useState(15);
 
   const resRef = db
     .collection("restaurants")
     .doc(currentUser.uid)
     .collection("guestlist");
+
+  useEffect(() => {
+    db.collection("restaurants")
+      .doc(currentUser.uid)
+      .get()
+      .then((res) => {
+        console.log("hey my info add guest", res.data());
+        setMaxPartySize(res.data().maxPartySize);
+      })
+      .catch((e) => console.log("error", e));
+
+    db.collection("restaurants")
+      .doc(currentUser.uid)
+      .collection("layout")
+      .get()
+      .then((res) => {
+        console.log("thats my table", res);
+        const resTables = [];
+
+        res.forEach((i) => {
+          const newItem = { ...i.data() };
+          resTables.push({ id: newItem.id, label: newItem.data.label });
+        });
+
+        console.log("resTables", resTables);
+        setTables(resTables);
+        // console.log("thats my table list", res.data());
+        // res.forEach()
+        // setMaxPartySize(res.data().maxPartySize);
+      })
+      .catch((e) => console.log("error", e));
+  }, []);
 
   const updateGuestList = async (e) => {
     e.preventDefault();
@@ -98,6 +132,7 @@ const AddGuest = React.forwardRef(({ handleChange, ...props }, ref) => {
     const newGuest = {
       ...guest,
       // id: shortid.generate(),
+      party: guest.party.label,
       id: resRef.doc().id,
       waitTime: guest.reserveTime
         ? new Date(new Date(guest.reserveTime).getTime() - RESERVE_OFFSET)
@@ -122,6 +157,16 @@ const AddGuest = React.forwardRef(({ handleChange, ...props }, ref) => {
     setGuest(INITIAL_GUEST);
     if (props.toggleDrawer) props.toggleDrawer();
     // }
+  };
+
+  const createPartySizeList = (size) => {
+    const arr = [];
+    for (let i = 1; i <= size; i++) {
+      arr.push({ id: i, label: i });
+    }
+    // console.log("famous last array", arr);
+
+    return arr;
   };
 
   return (
@@ -165,7 +210,8 @@ const AddGuest = React.forwardRef(({ handleChange, ...props }, ref) => {
 
       <SelectSlider
         label="party size"
-        options={PARTY_ARRAY}
+        // options={PARTY_ARRAY}
+        options={createPartySizeList(maxPartySize)}
         value={guest.party}
         handleChange={(val) => {
           setGuest({ ...guest, party: val });
@@ -231,7 +277,7 @@ const AddGuest = React.forwardRef(({ handleChange, ...props }, ref) => {
       {guest.reserveTime && (
         <SelectSlider
           label="seating"
-          options={TABLE_ARRAY}
+          options={tables}
           value={guest.table}
           handleChange={(val) => {
             setGuest({ ...guest, table: val });

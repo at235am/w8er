@@ -144,8 +144,10 @@ const SelectSlider = ({ label, options, handleChange, value, ...props }) => {
   return (
     <SelectSliderContainer {...props}>
       <Shadow orientation="left"></Shadow>
-      <SelectSliderLabel>
-        {label}: <span>{value}</span>
+      <SelectSliderLabel
+        onClick={() => console.log("selectedItem", itemSelected)}
+      >
+        {label}: <span>{value.id ? value.label : JSON.stringify(value)}</span>
       </SelectSliderLabel>
       <SelectSliderContainer2
         ref={containerRef}
@@ -173,13 +175,17 @@ const SelectSlider = ({ label, options, handleChange, value, ...props }) => {
           {options.map((item, i) => (
             <OptionItem
               key={i}
-              glow={item === itemSelected}
+              glow={
+                item.id ? item.id === itemSelected.id : item === itemSelected
+              }
               onClick={() => {
+                console.log("good1", item);
                 setItemSelected(item);
                 handleChange(item);
+                // console.log("good2");
               }}
             >
-              {item}
+              {item.id ? item.label : JSON.stringify(item)}
             </OptionItem>
           ))}
         </OptionsDraggable>

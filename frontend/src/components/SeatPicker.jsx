@@ -21,7 +21,7 @@ import {
 import { useRecoilState, useRecoilValue } from "recoil";
 import { FloorMapItems } from "../recoil/FloorMapItems";
 
-const shortid = require("shortid");
+// const shortid = require("shortid");
 
 export const DEFAULT_NODE_DATA = {
   rotateAngle: 0,
@@ -91,13 +91,20 @@ const SeatPicker = ({ options, handleChange, value, ...props }) => {
   };
 
   useEffect(() => {
-    const indexFound = items.findIndex((item) => item.data.label === value);
+    // const indexFound = items.findIndex((item) => item.data.label === value);
+    // if (indexFound !== -1) {
+    //   setSelectedElements({
+    //     ...items[indexFound],
+    //   });
+    // }
+    const indexFound = options.findIndex((item) => item.id === value.id);
     if (indexFound !== -1) {
       setSelectedElements({
-        ...items[indexFound],
+        ...options[indexFound],
       });
     }
-  }, [value, items]);
+  }, [value, options]);
+  // }, [value, items]);
 
   return (
     <FloorMapContainer>
@@ -105,9 +112,11 @@ const SeatPicker = ({ options, handleChange, value, ...props }) => {
       <ReactFlow
         zoomOnScroll={false}
         onLoad={onLoad}
-        elements={items}
+        // elements={items}
+        elements={options}
         onElementClick={(e, node) => {
-          handleChange(node.data.label);
+          console.log("node", node);
+          handleChange({ ...node, label: node.data.label });
         }}
         nodesDraggable={false}
         // snapToGrid

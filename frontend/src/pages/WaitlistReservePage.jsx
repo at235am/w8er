@@ -14,6 +14,10 @@ import { useRecoilState } from "recoil";
 import { userState } from "../recoil/UserState";
 import SelectSlider from "../components/inputs/SelectSlider";
 import SeatPicker from "../components/SeatPicker";
+import { db } from "../firebase";
+import { useAuth } from "../contexts/AuthContext";
+import { useHistory, useLocation } from "react-router-dom";
+import { TiLocation } from "react-icons/ti";
 
 const INITIAL_ACC_INFO = {
   restaurantName: "",
@@ -29,20 +33,40 @@ const INITIAL_ACC_INFO = {
 const RegisterContainer = styled.div`
   /* background-color: red; */
   display: flex;
-  justify-content: center;
-  align-items: center;
 
   @media (max-width: 1050px) {
     flex-direction: column;
+    align-items: center;
   }
+
+  ${({ reserve }) =>
+    reserve
+      ? css`
+          /* justify-content: flex-start; */
+          justify-content: center;
+          /* align-items: center; */
+        `
+      : css`
+          justify-content: center;
+          align-items: center;
+        `}
 `;
 
 const RegisterCard = styled(Card)`
   @media (max-width: 500px) {
-    width: 90%;
+    /* width: 90%; */
     padding: 1rem;
     /* background-color: red; */
   }
+
+  ${({ reserve, theme }) =>
+    reserve
+      ? css`
+          border-radius: 0;
+          border: 0px;
+          border-right: 1px solid ${theme.colors.outline};
+        `
+      : css``}
 `;
 
 const FormContainer = styled.form`
@@ -129,20 +153,73 @@ const Confirm = styled.p`
 `;
 
 const SeatPickerContainer = styled.div`
-  width: 40rem;
-  height: 40rem;
+  /* width: 40rem; */
+  /* height: 40rem; */
+  width: 100%;
+  height: 100%;
+  min-height: 40rem;
   padding: 0.5rem;
 
   background-color: ${({ theme }) => theme.colors.surface};
-  border: 1px solid ${({ theme }) => theme.colors.outline};
-  border-bottom: 4px solid ${({ theme }) => theme.colors.outline};
+  /* border: 1px solid ${({ theme }) => theme.colors.outline}; */
+  /* border-bottom: 4px solid ${({ theme }) => theme.colors.outline}; */
 `;
 
-const RegisterPage = () => {
+const ResWrapper = styled.div`
+  background-color: ${({ theme }) => theme.colors.primary};
+  border-radius: 3px;
+  padding: 0.5rem 1rem;
+  margin: 1rem 0;
+
+  svg {
+    margin-right: 1rem;
+    width: 2.75rem;
+    height: 2.75rem;
+    path {
+      fill: white;
+    }
+  }
+
+  display: flex;
+`;
+const ResData = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  h2 {
+    font-weight: bold;
+  }
+
+  h3 {
+    font-style: italic;
+  }
+`;
+const Title = styled.h1`
+  font-size: 1.5rem;
+  font-weight: bold;
+`;
+
+const ONE_MINUTE_MS = 60000;
+const RESERVE_OFFSET = 45 * ONE_MINUTE_MS;
+
+const RegisterPage = ({ match, ...props }) => {
   const [info, setInfo] = useState("");
+  const [seatingOptions, setSeatingOptions] = useState([]);
   const [reserve, setReserve] = useState(false);
   const [seating, setSeating] = useState("");
+  const [restaurantData, setRestaurantData] = useState({
+    uid: "",
+    restaurantName: "",
+    address: "",
+    phone: "",
+    maxPartySize: "",
+  });
   const { register, handleSubmit, errors, watch } = useForm();
+  // const { currentUser } = useAuth();
+  const location = useLocation();
+  const history = useHistory();
+  const resRef = db.collection("restaurants");
+  const [partySize, setPartySize] = useState({ id: 1, label: 1 });
 
   const name = {
     required: { value: true, message: "name required" },
@@ -156,19 +233,122 @@ const RegisterPage = () => {
     min: { value: 1, message: "greater than 0" },
     max: { value: 15, message: "less than 16" },
   };
+
   const reservationReqs = {
     required: { value: true, message: "phone # required" },
   };
 
-  const onSubmit = (data) => {
-    setInfo(data);
-    console.log("lsjdflkj, data", data);
+  const onSubmit = async (data) => {
+    // setInfo(data);
+    // console.log("lsjdflkj, data", data, seating);
+
+    // resRef.doc(match.params.id).collection("layout");
+
+    const newGuest = {
+      ...data,
+      id: resRef.doc().id,
+      table: { id: seating.id, label: seating.label },
+      // id: shortid.generate(),
+      tabledAssigned: "",
+      departureTime: "",
+      seatedTime: "",
+      party: partySize.label,
+
+      waitTime: data.reserveTime
+        ? new Date(new Date(data.reserveTime).getTime() - RESERVE_OFFSET)
+        : new Date(),
+      reserveTime: data.reserveTime ? new Date(data.reserveTime) : "",
+    };
+
+    // if (!snapShot.exists) {
+    // console.log("not existing");
+
+    // handleChange(newGuest);
+    // console.log("new customer", newGuest);
+    try {
+      // setLoading(true);
+      console.log("newGuest self", newGuest);
+      await resRef
+        .doc(match.params.id)
+        .collection("guestlist")
+        .doc(newGuest.id)
+        .set(newGuest);
+      // setLoading(false);
+    } catch (e) {
+      // setLoading(false);
+      console.log("error creating res", e);
+    }
+
+    // setInfo("");
   };
 
+  useEffect(() => {
+    resRef
+      .doc(match.params.id)
+
+      .get()
+      .then((res) => {
+        console.log("hey my info", res.data());
+        setRestaurantData(res.data());
+        // const items = [];
+        // res.forEach((i) => {
+        //   const newItem = i.data();
+        //   items.push({ ...newItem, label: newItem.data.label });
+        // });
+        // setSeatingOptions(items);
+        // setSeatingSliderOptions(items);
+      })
+      .catch((e) => console.log("error", e));
+  }, []);
+
+  useEffect(() => {
+    resRef
+      .doc(match.params.id)
+      .collection("layout")
+      .get()
+      .then((res) => {
+        const items = [];
+        res.forEach((i) => {
+          const newItem = i.data();
+          items.push({ ...newItem, label: newItem.data.label });
+        });
+        setSeatingOptions(items);
+        // setSeatingSliderOptions(items);
+      })
+      .catch((e) => console.log("error", e));
+  }, [location]);
+
+  const createPartySizeList = (size = 0) => {
+    console.log("size test", size);
+    const arr = [];
+    for (let i = 1; i <= size; i++) {
+      arr.push({ id: i, label: i });
+    }
+    console.log("famous last array 2", arr);
+
+    return arr;
+  };
   return (
-    <RegisterContainer>
-      <RegisterCard>
+    <RegisterContainer reserve={reserve}>
+      <RegisterCard reserve={reserve}>
         {/* noValidate disables the html5 validation and its ugly messages */}
+        {/* {JSON.stringify(restaurantData)} */}
+        {/* <Title>Add yourself to the guestlist!</Title> */}
+        <ResWrapper>
+          <TiLocation />
+          <ResData>
+            <h2>
+              {restaurantData.restaurantName
+                ? restaurantData.restaurantName
+                : "the restaurant has not provided a name yet"}
+            </h2>
+            <h3>
+              {restaurantData.address
+                ? restaurantData.address
+                : "the restaurant has no provided an address yet"}
+            </h3>
+          </ResData>
+        </ResWrapper>
         {!info ? (
           <FormContainer onSubmit={handleSubmit(onSubmit)} noValidate>
             <SpacedInput
@@ -189,13 +369,32 @@ const RegisterPage = () => {
               error={errors.phone && errors.phone.message}
             />
 
-            <SpacedInput
+            {/* <SpacedInput
               type="number"
               htmlFor="party"
               label="party size"
               name="party"
               ref={register(partyReqs)}
               error={errors.party && errors.party.message}
+              min={1}
+              max={restaurantData.maxPartySize}
+            /> */}
+
+            <SelectSlider
+              label="party size"
+              // options={PARTY_ARRAY}
+              options={createPartySizeList(
+                restaurantData.maxPartySize ? restaurantData.maxPartySize : 15
+              )}
+              value={partySize}
+              handleChange={(val) => {
+                // setGuest({ ...guest, party: val.label });
+                console.log("handchange", val);
+                setPartySize(val);
+              }}
+              css={css`
+                margin-bottom: 1rem;
+              `}
             />
 
             <P
@@ -222,27 +421,31 @@ const RegisterPage = () => {
                   type="datetime-local"
                   htmlFor="reservation"
                   label="reservation date&time"
-                  name="reservation"
+                  name="reserveTime"
                   ref={register(reservationReqs)}
-                  error={errors.reservation && errors.reservation.message}
+                  error={errors.reserveTime && errors.reserveTime.message}
                 />
 
                 <SelectSlider
                   label="table"
-                  options={[
-                    "A",
-                    "B",
-                    "C",
-                    "D",
-                    "E",
-                    "F",
-                    "G",
-                    "B2",
-                    "ALT",
-                    "F4",
-                  ]}
+                  options={seatingOptions}
+                  // options={[
+                  //   "A",
+                  //   "B",
+                  //   "C",
+                  //   "D",
+                  //   "E",
+                  //   "F",
+                  //   "G",
+                  //   "B2",
+                  //   "ALT",
+                  //   "F4",
+                  // ]}
                   handleChange={setSeating}
                   value={seating}
+                  css={css`
+                    margin-bottom: 1rem;
+                  `}
                 ></SelectSlider>
               </React.Fragment>
             )}
@@ -260,7 +463,11 @@ const RegisterPage = () => {
       </RegisterCard>
       {reserve && (
         <SeatPickerContainer>
-          <SeatPicker options={[]} handleChange={setSeating} value={seating} />
+          <SeatPicker
+            options={seatingOptions}
+            handleChange={setSeating}
+            value={seating}
+          />
         </SeatPickerContainer>
       )}
     </RegisterContainer>

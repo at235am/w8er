@@ -454,12 +454,14 @@ const GuestItem = ({
         </MainInfoWrapper>
         <SubInfo>
           <p className="label">Table Requested:</p>
-          <p className="value">{guestInfo.table ? guestInfo.table : "Any"}</p>
+          <p className="value">
+            {guestInfo.table ? guestInfo.table.label : "Any"}
+          </p>
         </SubInfo>
         <SubInfo css={spacing}>
           <p className="label">Table Assigned:</p>
           <p className="value">
-            {guestInfo.tableAssigned ? guestInfo.tableAssigned : "N/A"}
+            {guestInfo.tableAssigned ? guestInfo.tableAssigned.label : "N/A"}
           </p>
         </SubInfo>
         <PhoneInfo

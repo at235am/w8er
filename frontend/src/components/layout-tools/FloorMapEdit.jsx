@@ -97,7 +97,7 @@ const NotificationText = styled.p`
     width: 1.25rem;
     height: 1.25rem;
     path {
-      fill: ${({ theme }) => theme.colors.onBackground};
+      fill: white;
     }
   }
 
